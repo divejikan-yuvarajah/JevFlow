@@ -1,140 +1,162 @@
-# JevFlow
+# JevFlow — Confidence-Aware GitHub Issue Triage powered by Jev
 
-Confidence-aware GitHub issue triage powered by TypeSafe AI Jev.
+JevFlow turns a GitHub issue into typed triage recommendations, applies a deterministic confidence policy, and proposes a small allowlisted set of labels. Uncertain, critical, or security-sensitive results are routed to a maintainer instead of being treated as safe automation.
 
-JevFlow is being built to help maintainers classify incoming GitHub issues, evaluate decision confidence, and route uncertain or security-sensitive cases to a human. The planned flow is GitHub issue input → Jev typed decisions → normalized results → deterministic confidence policy → proposed labels or human review → GitHub automation.
+OpenAI Codex helped build and review this project. **TypeSafe AI Jev is the runtime inference provider.** JevFlow does not use OpenAI for application inference.
 
-## Current status
+## Project status
 
-Tasks 01–06 provide the runnable foundation, Jev triage engine, deterministic confidence policy, secure GitHub automation, reproducible evaluation harness, and local decision dashboard:
+JevFlow is a local, offline-verified v0.1.0 MVP candidate. Live Jev inference, GitHub-hosted issue mutation, public web deployment, and release publication have not been performed during development.
 
-- Node.js 20+ with strict TypeScript ESM
-- canonical issue classification vocabulary and input type
-- validated environment configuration
-- an offline bootstrap CLI
-- formatting, linting, tests, build, and CI configuration
-- bounded runtime validation for untrusted issue input
-- five typed questions submitted in one official Jev SDK call
-- strict provider-response normalization through `analyzeIssue`
-- conservative confidence gating and safety escalation
-- allowlisted local GitHub label proposals
-- a file-driven local triage CLI with human and JSON output
-- bounded and repository-verified GitHub event parsing
-- allowlisted, minimal GitHub label reconciliation with safe failure escalation
-- sanitized GitHub Actions summaries
-- source-repository and separately configurable target-repository workflows
-- a versioned 30-case synthetic evaluation dataset and annotation rubric
-- deterministic offline metrics with JSON and Markdown reports
-- an explicitly gated, sequential live Jev benchmark path
-- a responsive Next.js playground with three clearly identified synthetic previews
-- a guarded, development-only server route that reuses the existing analyzer, policy, and label mapper
-- a read-only evaluation view for valid local Task 05 reports
+| Capability                                            | Status                                                | Live credentials                                |
+| ----------------------------------------------------- | ----------------------------------------------------- | ----------------------------------------------- |
+| Strict TypeScript core, confidence policy, CLI, tests | Implemented and verified offline                      | None                                            |
+| 30-case synthetic fixture evaluation                  | Implemented; measures harness and policy behavior     | None                                            |
+| Responsive Next.js preview dashboard                  | Implemented; synthetic fixture mode works offline     | None                                            |
+| Local CLI analysis with Jev                           | Implemented; deliberate live command                  | `TYPESAFE_API_KEY`                              |
+| GitHub Actions issue labeling                         | Implemented and statically reviewed; live run pending | Repository secret plus automatic `GITHUB_TOKEN` |
+| Dashboard live analysis                               | Development-only, disabled by default                 | Server-side `TYPESAFE_API_KEY`                  |
+| Public hosted service, authentication, database       | Not implemented                                       | —                                               |
 
-The automation can mutate labels only when the guarded Actions runner receives a supported, validated event and repository-scoped credentials. The dashboard never mutates GitHub. No live workflow, live Jev benchmark, or dashboard Jev request has been run as part of the offline implementation. The regular bootstrap, validation commands, fixture evaluation, dashboard preview, and CLI help do not make network requests.
+## How it works
+
+```mermaid
+flowchart LR
+  A[GitHub issue or local input] --> B[Bounded validated state]
+  B --> C[TypeSafe AI Jev typed questions]
+  C --> D[Validated TriageResult]
+  D --> E[Deterministic confidence policy]
+  E --> F[Allowlisted label proposal]
+  F --> G[Local or web presentation]
+  F --> H[Repository-scoped GitHub reconciliation]
+```
+
+Jev answers three `choice` questions (`issueType`, `engineeringArea`, and `priority`) and two binary questions (`securitySensitive` and `needsHumanReview`). Choice `selectedProbability` and provider-reported `confidence` are kept separate. Binary values are P(YES), not confidence scores and not proof of a security incident.
+
+The application policy gates choices using the weaker of selected probability and reported confidence, then uses the weakest of the three choices. Critical priority, security P(YES), needs-review P(YES), and truncated input can only increase review requirements. These thresholds are project heuristics, not provider calibration guarantees.
 
 ## Requirements
 
-- Node.js 20.19 or newer
-- npm
+- Node.js 20.19 or newer (`.nvmrc` selects Node 20)
+- npm with the committed lockfiles
+- A TypeSafe AI key only for deliberately invoked live Jev paths
+- GitHub Actions secrets and repository permissions only for live issue automation
 
-## Get started
+## Install and verify
+
+Use the committed lockfile for a reproducible root install:
 
 ```bash
-npm install
+npm ci
+npm run check
 ```
 
-Optionally create local environment settings from `.env.example`. No TypeSafe API key is needed for the bootstrap, build, or offline test suite.
+Useful root commands:
+
+```bash
+npm run dev
+npm run build
+npm start
+npm run triage -- --help
+npm run eval -- --help
+```
+
+`npm run dev`, `npm start`, both help commands, tests, builds, and fixture evaluation are offline. See [development.md](docs/development.md) for PowerShell setup and troubleshooting.
+
+## Environment configuration
+
+Copy `.env.example` to an ignored `.env` only when local overrides are needed:
 
 ```powershell
 Copy-Item .env.example .env
 ```
 
-Run the local bootstrap and all validation:
+The example contains empty placeholders for `TYPESAFE_API_KEY` and `GITHUB_TOKEN`, plus the default policy thresholds. Never commit `.env`, paste credentials into a command, use a `NEXT_PUBLIC_` secret, or expose a key to browser code.
 
-```bash
-npm run dev
-npm run check
-```
+## Local issue CLI
 
-Build and run the compiled application:
-
-```bash
-npm run build
-npm start
-```
-
-## Jev integration
-
-The public `analyzeIssue` service validates and bounds an issue, asks TypeSafe AI Jev three choice questions and two NOUL questions in one `systemOne` invocation, then returns a provider-independent result. Choice results preserve the selected option's probability and the SDK-reported confidence as separate metrics. NOUL results are represented as P(YES), not booleans or confidence scores.
-
-A live smoke test is manual and may use paid API capacity. Put `TYPESAFE_API_KEY` in the ignored local `.env` file, then run it only when explicitly intended:
-
-```bash
-npm run smoke:jev
-```
-
-The command submits one harmless invented issue and prints only a normalized result. It is excluded from `npm run check` and CI.
-
-## Local triage CLI
-
-The CLI accepts one issue JSON file, invokes the existing Jev analyzer, evaluates deterministic policy, and prints proposed labels without contacting GitHub:
+The committed example is synthetic. Help is offline:
 
 ```bash
 npm run triage -- --help
+```
+
+The following commands make one live application-level Jev request and can consume paid capacity:
+
+```bash
 npm run triage -- --file examples/sample-issue.json
 npm run triage -- --file examples/sample-issue.json --json
 ```
 
-The file-based commands make one application-level Jev request and therefore require a locally configured `TYPESAFE_API_KEY`. Run them only when live inference is explicitly intended. `--help` is offline and requires no key. Proposed labels are not applied to any issue by this local CLI.
+Human output explains decisions, policy, and proposed labels. `--json` writes one machine-readable JSON document. Neither mode mutates GitHub.
 
-## GitHub automation
+## Offline evaluation
 
-The guarded `npm run triage:github` entry point reads a bounded `GITHUB_EVENT_PATH` on GitHub Actions. It supports `issues.opened` and validated manual dispatch by issue number. It then uses the existing analyzer, policy, and label mapper before applying only exact labels from JevFlow's static catalog. A provider or policy failure on an already trusted issue attempts a `jev:human-review` fallback without inventing category decisions.
-
-The main workflow at `.github/workflows/jevflow-triage.yml` applies only to this repository. The separate template in `deploy/target-repo/` must be configured with a reviewed public source owner and immutable commit SHA, then copied to the target repository's default branch. See the [target repository install guide](deploy/target-repo/README.md). Live inference and GitHub mutation can consume paid capacity and require explicit authorization.
-
-## Evaluation
-
-The default evaluation mode loads 30 fictional issues and matching authored normalized decisions, then reuses the existing confidence policy and label mapper:
+Run the deterministic 30-case synthetic fixture suite:
 
 ```bash
-npm run eval -- --help
 npm run eval -- --mode fixture
-npm run eval -- --mode fixture --format json
-npm run eval -- --mode fixture --format json --output evals/results/<unique-name>.json
+npm run eval -- --mode fixture --format json --output evals/results/task07-offline.json
 ```
 
-Fixture results are labeled `offline-fixture` and describe harness and policy behavior. They are not Jev performance measurements. Generated JSON and Markdown reports are ignored by Git.
-
-Live evaluation is sequential, requires an explicit confirmation flag and `TYPESAFE_API_KEY`, and may incur charges. Use a small limit only after explicit authorization:
-
-```bash
-npm run eval -- --mode live --confirm-live --limit 1
-```
-
-See [Evaluation and benchmarking](docs/evaluation.md), the [evaluation assets](evals/README.md), and the [annotation guide](evals/annotation-guide.md).
+Generated JSON and Markdown reports belong under `evals/results/` and are ignored by Git. Fixture reports are labeled `offline-fixture`; they verify dataset loading, metric arithmetic, policy integration, and reporting. They are **not** Jev accuracy, latency, cost, or calibration measurements. See [evaluation.md](docs/evaluation.md).
 
 ## Web playground
 
-The independent `web/` package provides a dark, responsive issue-analysis workbench and a compact evaluation view. Its three synthetic scenarios use authored example values, then run the real deterministic policy and label mapper locally. They do not call Jev and do not represent model performance.
+`web/` is a separate Next.js package with its own lockfile:
 
 ```bash
 npm ci
 npm --prefix web ci
 npm --prefix web run dev
+npm --prefix web run check
 ```
 
-Open `http://localhost:3000`. Live Jev mode remains disabled unless a local developer explicitly sets both the server-only opt-in and credential in ignored `web/.env.local`. Production live access is rejected. See the [web application guide](web/README.md) for the exact configuration and independent checks.
+Open `http://localhost:3000`. The default Preview Fixture mode uses three clearly labeled synthetic examples and makes no provider request. The `/evaluation` page reads a valid local report when one exists and otherwise shows an honest empty state.
 
-## Repository roles
+Live dashboard requests require an ignored `web/.env.local`, `JEVFLOW_LIVE_DEMO_ENABLED=true`, and a server-only `TYPESAFE_API_KEY`. The route is disabled in production and the dashboard never writes to GitHub. See [web/README.md](web/README.md).
 
-This `jevflow` repository contains the application source and documentation. The separate `jevflow-test-repo` is disposable and reserved for explicitly authorized integration and evaluation runs; it must not be merged into this repository.
+## GitHub Actions installation
+
+The source workflow at [jevflow-triage.yml](.github/workflows/jevflow-triage.yml) handles issues in this repository only. It triggers on `issues: opened` or a manually supplied issue number, requests `contents: read` and `issues: write`, and uses the receiving repository's automatic token.
+
+For a separate disposable repository, place the configured [target template](deploy/target-repo/jevflow-triage.yml) on that repository's default branch. Replace the public source owner and placeholder with a reviewed immutable 40-character JevFlow commit SHA, then add `TYPESAFE_API_KEY` as a secret in the target repository. Tokens and secrets do not transfer from the source repository. Follow [deployment.md](docs/deployment.md) and the [target install guide](deploy/target-repo/README.md).
+
+`security-review` means manual security review is recommended; it does not confirm a vulnerability. The label stays until a human removes it. JevFlow preserves unrelated human labels and reports partial API failures in the Actions summary.
+
+## Security and privacy
+
+Issue titles and bodies are untrusted input. JevFlow validates and bounds them before inference, uses a static label allowlist, keeps provider and GitHub errors sanitized, and isolates server credentials from browser modules. Live analysis sends issue content to TypeSafe AI Jev under the provider's applicable terms. Do not use sensitive production issues until privacy, retention, access, and cost requirements have been reviewed.
+
+See [security.md](docs/security.md) for the threat model and known limits. JevFlow is not a vulnerability scanner and has no security certification.
+
+## Demo and screenshots
+
+Screenshots are **pending capture**. No generated image is presented as a real product or Actions run. The [demo guide](docs/demo-guide.md) contains a 60–90 second storyboard and an evidence checklist for local capture.
+
+## Limitations
+
+- Live Jev behavior and provider latency have not been measured in this release preparation.
+- The 30 synthetic cases are not representative production data.
+- GitHub workflows have been reviewed and tested with injected offline adapters, but have not been installed and observed on `jevflow-test-repo`.
+- The local dashboard live route is intentionally unavailable in production; a hosted live service needs authentication, rate limits, abuse controls, and a separate review.
+- License selection, public URLs, release/tag creation, deployment, and publication remain pending.
 
 ## Documentation
 
 - [Architecture](docs/architecture.md)
-- [Technical decisions](docs/decisions.md)
-- [Development guide](docs/development.md)
-- [Evaluation and benchmarking](docs/evaluation.md)
+- [Development](docs/development.md)
+- [Testing](docs/testing.md)
+- [Evaluation](docs/evaluation.md)
+- [Security](docs/security.md)
+- [Deployment](docs/deployment.md)
+- [Release readiness report](docs/release-report.md)
 - [Roadmap](docs/roadmap.md)
-- [Web playground](web/README.md)
+
+## Contributing
+
+Create a focused branch from verified `main`, preserve the module boundaries in `AGENTS.md`, run root and web checks when affected, and review staged changes for credentials before committing. Live provider or GitHub testing requires separate explicit authorization.
+
+## License
+
+**License pending.** No license file has been selected by the project owner. Public reuse terms must not be assumed until a license is chosen and added.

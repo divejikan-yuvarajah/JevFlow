@@ -20,13 +20,7 @@ The target repository's default token can read a public source repository. It do
 
 ## Label preparation
 
-JevFlow can create missing labels only from its static catalog. The prepared disposable repository may also seed its matching catalog explicitly:
-
-```bash
-npm run seed:labels
-```
-
-Run that command only inside the separate disposable repository and only when authorized. JevFlow never overwrites the whole issue label list, preserves unrelated labels, and treats `security-review` as sticky.
+No separate seed command is required. During an authorized run, JevFlow creates missing allowlisted labels before applying them. It never overwrites the whole issue label list, preserves unrelated labels, and treats `security-review` as sticky. Review the canonical catalog in `src/github/labels.ts` at the pinned source commit before installing the workflow.
 
 ## Explicit live validation checklist
 
@@ -35,6 +29,6 @@ Run that command only inside the separate disposable repository and only when au
 3. Open a synthetic security-sensitive scenario and an ambiguous issue. Model predictions can vary and do not prove a vulnerability.
 4. Run `workflow_dispatch` with an existing positive issue number and confirm label reconciliation is idempotent.
 5. Test the provider-failure human-review fallback only in an isolated authorized run, then restore the secret or configuration afterward.
-6. Seed the remaining 15 sample issues with `npm run seed:issues` only if multiple paid Jev requests are explicitly authorized. Compare them with `sample-issues/expected-results.json` only during Task 05 evaluation; hand-authored expectations do not make model output deterministic.
+6. Add further synthetic issues one at a time only when additional paid Jev requests are explicitly authorized. Treat expected labels as a human review aid; probabilistic model output can differ between runs.
 
 No workflow, label seed, issue seed, secret creation, live inference, or remote push is performed by this template itself.

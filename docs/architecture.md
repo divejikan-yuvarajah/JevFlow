@@ -1,6 +1,6 @@
 # Architecture
 
-JevFlow will turn untrusted GitHub issue text into typed triage recommendations while keeping inference, deterministic policy, and external side effects separate.
+JevFlow turns untrusted GitHub issue text into typed triage recommendations while keeping inference, deterministic policy, and external side effects separate.
 
 ## Automation data flow
 
@@ -108,3 +108,27 @@ Live dashboard inference is disabled by default, restricted to local development
 - `web/` owns the optional Next.js presentation adapter, public response contract, synthetic preview experience, guarded local route, responsive UI, and read-only evaluation summary.
 
 GitHub API calls must not enter the Jev adapter, policy must remain independent of presentation code, and untrusted issue text must be bounded before it is sent to an inference provider.
+
+## Trust boundaries and data handling
+
+| Boundary             | Untrusted data                               | Validation and allowed effect                                                                  |
+| -------------------- | -------------------------------------------- | ---------------------------------------------------------------------------------------------- |
+| Local file CLI       | File path contents and issue JSON            | 64 KiB file cap, strict arguments, `buildJevState`; prints a result and never contacts GitHub  |
+| Jev provider         | Provider response                            | Full runtime normalization; missing probabilities are rejected rather than invented            |
+| GitHub Actions event | Event JSON, issue title/body, dispatch input | 1 MiB event cap, matching repository identity, positive issue number, pull request rejection   |
+| Confidence policy    | Normalized probabilities and metadata        | Pure validation and deterministic escalation; no I/O                                           |
+| GitHub mutation      | Proposed labels and current labels           | Exact static allowlist; add desired labels before removing stale managed labels                |
+| Dashboard API        | Request headers and JSON body                | Development-only gate, 48 KiB body cap, strict fields, bounded issue input, sanitized response |
+| Evaluation page      | Local JSON report                            | Fixed directory, 2 MiB file cap, narrow schema; case text and paths are not rendered           |
+
+Issue text reaches TypeSafe AI Jev only on an explicit live analyzer path. It is not written into shell commands, workflow action references, repository names, paths, Actions summaries, or dashboard API responses. The SDK adapter disables provider logging. The application has no database.
+
+## Source repository and target repository
+
+The workflow stored in `.github/workflows/jevflow-triage.yml` receives events only for the JevFlow source repository. GitHub does not deliver another repository's issue events to it.
+
+The template under `deploy/target-repo/` must be copied to the disposable target repository's default branch. That workflow checks out an approved public JevFlow commit into `jevflow/`, installs its root lockfile, and runs the same `triage:github` entry point. The target's automatic `GITHUB_TOKEN`, event payload, secret, and label writes all remain target-scoped. A private source needs a separately designed and approved read mechanism.
+
+## Failure path
+
+After a trusted issue target is known, an analyzer, normalization, or policy failure triggers an honest fallback that proposes only `jev:human-review`. Existing category and `security-review` labels remain, while stale automatic or review-suggested mode labels can be cleared. API failures and partial mutations produce a nonzero result with actual operation details; they are never rendered as success. Failures before trusted identity do not call Jev or GitHub mutation APIs.
