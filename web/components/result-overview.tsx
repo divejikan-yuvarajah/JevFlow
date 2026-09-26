@@ -60,17 +60,17 @@ export function ResultOverview({ result }: ResultOverviewProps) {
         <DecisionCard
           eyebrow="Engineering area"
           decision={result.engineeringArea}
-          tone="cyan"
+          tone="information"
         />
         <DecisionCard
           eyebrow="Priority"
           decision={result.priority}
-          tone={result.priority.value === 'critical' ? 'red' : 'amber'}
+          tone={result.priority.value === 'critical' ? 'critical' : 'warning'}
         />
       </div>
 
       <div className="binary-grid">
-        <article className="binary-card">
+        <article className="binary-card security-indicator">
           <div>
             <p className="eyebrow">Security sensitive</p>
             <h3>P(YES)</h3>
@@ -78,11 +78,11 @@ export function ResultOverview({ result }: ResultOverviewProps) {
           <ProbabilityBar
             label="Security-sensitive P(YES)"
             value={result.securitySensitiveProbabilityYes}
-            tone="red"
+            tone="critical"
           />
           <p>Requests investigation; it does not confirm a vulnerability.</p>
         </article>
-        <article className="binary-card">
+        <article className="binary-card review-indicator">
           <div>
             <p className="eyebrow">Needs human review</p>
             <h3>P(YES)</h3>
@@ -90,7 +90,7 @@ export function ResultOverview({ result }: ResultOverviewProps) {
           <ProbabilityBar
             label="Needs-human-review P(YES)"
             value={result.needsHumanReviewProbabilityYes}
-            tone="amber"
+            tone="warning"
           />
           <p>This probability is separate from choice confidence.</p>
         </article>

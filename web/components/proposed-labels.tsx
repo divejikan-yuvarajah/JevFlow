@@ -4,6 +4,22 @@ interface ProposedLabelsProps {
   readonly labels: readonly ProposedLabel[];
 }
 
+function labelTone(label: ProposedLabel): string {
+  if (label === 'security-review' || label === 'jev:human-review') {
+    return 'label-critical';
+  }
+  if (
+    label === 'jev:review-suggested' ||
+    label === 'priority:critical' ||
+    label === 'priority:high'
+  ) {
+    return 'label-warning';
+  }
+  if (label === 'jev:auto-triaged') return 'label-success';
+  if (label.startsWith('area:')) return 'label-information';
+  return 'label-primary';
+}
+
 export function ProposedLabels({ labels }: ProposedLabelsProps) {
   return (
     <section className="labels-section" aria-labelledby="labels-heading">
@@ -16,7 +32,7 @@ export function ProposedLabels({ labels }: ProposedLabelsProps) {
       </p>
       <div className="label-list">
         {labels.map((label) => (
-          <span className="label-chip" key={label}>
+          <span className={`label-chip ${labelTone(label)}`} key={label}>
             {label}
           </span>
         ))}

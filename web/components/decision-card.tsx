@@ -4,12 +4,16 @@ import { ProbabilityBar } from './probability-bar';
 interface DecisionCardProps {
   readonly eyebrow: string;
   readonly decision: PublicDecision<string>;
-  readonly tone?: 'violet' | 'cyan' | 'amber' | 'red';
+  readonly tone?: 'primary' | 'information' | 'warning' | 'critical';
 }
 
-export function DecisionCard({ eyebrow, decision, tone }: DecisionCardProps) {
+export function DecisionCard({
+  eyebrow,
+  decision,
+  tone = 'primary',
+}: DecisionCardProps) {
   return (
-    <article className="decision-card">
+    <article className={`decision-card tone-${tone}`}>
       <p className="eyebrow">{eyebrow}</p>
       <h3>{decision.value}</h3>
       <ProbabilityBar
@@ -20,7 +24,7 @@ export function DecisionCard({ eyebrow, decision, tone }: DecisionCardProps) {
       <ProbabilityBar
         label="Reported choice confidence"
         value={decision.reportedConfidence}
-        tone="cyan"
+        tone="information"
       />
     </article>
   );

@@ -3,13 +3,13 @@ import { formatPercent } from '@/lib/contracts';
 interface ProbabilityBarProps {
   readonly label: string;
   readonly value: number;
-  readonly tone?: 'violet' | 'cyan' | 'amber' | 'red';
+  readonly tone?: 'primary' | 'information' | 'warning' | 'critical';
 }
 
 export function ProbabilityBar({
   label,
   value,
-  tone = 'violet',
+  tone = 'primary',
 }: ProbabilityBarProps) {
   const percent = formatPercent(value);
   return (
