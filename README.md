@@ -6,15 +6,18 @@ JevFlow is being built to help maintainers classify incoming GitHub issues, eval
 
 ## Current status
 
-Task 01 provides the runnable project foundation:
+Tasks 01 and 02 provide the runnable foundation and Jev triage engine:
 
 - Node.js 20+ with strict TypeScript ESM
 - canonical issue classification vocabulary and input type
 - validated environment configuration
 - an offline bootstrap CLI
 - formatting, linting, tests, build, and CI configuration
+- bounded runtime validation for untrusted issue input
+- five typed questions submitted in one official Jev SDK call
+- strict provider-response normalization through `analyzeIssue`
 
-Jev inference, confidence policy, GitHub mutations, and the optional dashboard are planned for later phases. The current bootstrap does not classify issues or make network requests.
+The deterministic confidence policy, GitHub mutations, and optional dashboard remain planned for later phases. The regular bootstrap and validation commands do not make network requests.
 
 ## Requirements
 
@@ -27,7 +30,7 @@ Jev inference, confidence policy, GitHub mutations, and the optional dashboard a
 npm install
 ```
 
-Optionally create local environment settings from `.env.example`. No TypeSafe API key is needed for Task 01.
+Optionally create local environment settings from `.env.example`. No TypeSafe API key is needed for the bootstrap, build, or offline test suite.
 
 ```powershell
 Copy-Item .env.example .env
@@ -46,6 +49,18 @@ Build and run the compiled application:
 npm run build
 npm start
 ```
+
+## Jev integration
+
+The public `analyzeIssue` service validates and bounds an issue, asks TypeSafe AI Jev three choice questions and two NOUL questions in one `systemOne` invocation, then returns a provider-independent result. Choice results preserve the selected option's probability and the SDK-reported confidence as separate metrics. NOUL results are represented as P(YES), not booleans or confidence scores.
+
+A live smoke test is manual and may use paid API capacity. Put `TYPESAFE_API_KEY` in the ignored local `.env` file, then run it only when explicitly intended:
+
+```bash
+npm run smoke:jev
+```
+
+The command submits one harmless invented issue and prints only a normalized result. It is excluded from `npm run check` and CI.
 
 ## Repository roles
 
