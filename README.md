@@ -6,7 +6,7 @@ JevFlow is being built to help maintainers classify incoming GitHub issues, eval
 
 ## Current status
 
-Tasks 01–04 provide the runnable foundation, Jev triage engine, deterministic confidence policy, and secure GitHub automation:
+Tasks 01–05 provide the runnable foundation, Jev triage engine, deterministic confidence policy, secure GitHub automation, and reproducible evaluation harness:
 
 - Node.js 20+ with strict TypeScript ESM
 - canonical issue classification vocabulary and input type
@@ -23,8 +23,11 @@ Tasks 01–04 provide the runnable foundation, Jev triage engine, deterministic 
 - allowlisted, minimal GitHub label reconciliation with safe failure escalation
 - sanitized GitHub Actions summaries
 - source-repository and separately configurable target-repository workflows
+- a versioned 30-case synthetic evaluation dataset and annotation rubric
+- deterministic offline metrics with JSON and Markdown reports
+- an explicitly gated, sequential live Jev benchmark path
 
-The automation can mutate labels only when the guarded Actions runner receives a supported, validated event and repository-scoped credentials. No live workflow has been deployed or tested as part of the offline implementation. The optional dashboard remains planned for a later phase. The regular bootstrap, validation commands, and CLI help do not make network requests.
+The automation can mutate labels only when the guarded Actions runner receives a supported, validated event and repository-scoped credentials. No live workflow or live Jev benchmark has been run as part of the offline implementation. The optional dashboard remains planned for a later phase. The regular bootstrap, validation commands, fixture evaluation, and CLI help do not make network requests.
 
 ## Requirements
 
@@ -87,6 +90,27 @@ The guarded `npm run triage:github` entry point reads a bounded `GITHUB_EVENT_PA
 
 The main workflow at `.github/workflows/jevflow-triage.yml` applies only to this repository. The separate template in `deploy/target-repo/` must be configured with a reviewed public source owner and immutable commit SHA, then copied to the target repository's default branch. See the [target repository install guide](deploy/target-repo/README.md). Live inference and GitHub mutation can consume paid capacity and require explicit authorization.
 
+## Evaluation
+
+The default evaluation mode loads 30 fictional issues and matching authored normalized decisions, then reuses the existing confidence policy and label mapper:
+
+```bash
+npm run eval -- --help
+npm run eval -- --mode fixture
+npm run eval -- --mode fixture --format json
+npm run eval -- --mode fixture --format json --output evals/results/<unique-name>.json
+```
+
+Fixture results are labeled `offline-fixture` and describe harness and policy behavior. They are not Jev performance measurements. Generated JSON and Markdown reports are ignored by Git.
+
+Live evaluation is sequential, requires an explicit confirmation flag and `TYPESAFE_API_KEY`, and may incur charges. Use a small limit only after explicit authorization:
+
+```bash
+npm run eval -- --mode live --confirm-live --limit 1
+```
+
+See [Evaluation and benchmarking](docs/evaluation.md), the [evaluation assets](evals/README.md), and the [annotation guide](evals/annotation-guide.md).
+
 ## Repository roles
 
 This `jevflow` repository contains the application source and documentation. The separate `jevflow-test-repo` is disposable and reserved for explicitly authorized integration and evaluation runs; it must not be merged into this repository.
@@ -96,4 +120,5 @@ This `jevflow` repository contains the application source and documentation. The
 - [Architecture](docs/architecture.md)
 - [Technical decisions](docs/decisions.md)
 - [Development guide](docs/development.md)
+- [Evaluation and benchmarking](docs/evaluation.md)
 - [Roadmap](docs/roadmap.md)

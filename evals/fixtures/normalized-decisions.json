@@ -1,0 +1,638 @@
+{
+  "schemaVersion": "1.0",
+  "datasetVersion": "2026.09.1",
+  "provider": "synthetic-fixture",
+  "description": "Human-authored normalized decision fixtures for deterministic offline testing. Values are not TypeSafe AI Jev observations and latency is intentionally excluded.",
+  "fixtures": [
+    {
+      "id": "JF-001",
+      "issueType": {
+        "value": "bug",
+        "selectedProbability": 0.97,
+        "confidence": 0.95
+      },
+      "engineeringArea": {
+        "value": "backend",
+        "selectedProbability": 0.96,
+        "confidence": 0.94
+      },
+      "priority": {
+        "value": "high",
+        "selectedProbability": 0.94,
+        "confidence": 0.92
+      },
+      "securityProbabilityYes": 0.08,
+      "humanReviewProbabilityYes": 0.09,
+      "inputTruncated": false
+    },
+    {
+      "id": "JF-002",
+      "issueType": {
+        "value": "bug",
+        "selectedProbability": 0.96,
+        "confidence": 0.94
+      },
+      "engineeringArea": {
+        "value": "frontend",
+        "selectedProbability": 0.95,
+        "confidence": 0.93
+      },
+      "priority": {
+        "value": "medium",
+        "selectedProbability": 0.93,
+        "confidence": 0.91
+      },
+      "securityProbabilityYes": 0.03,
+      "humanReviewProbabilityYes": 0.08,
+      "inputTruncated": false
+    },
+    {
+      "id": "JF-003",
+      "issueType": {
+        "value": "bug",
+        "selectedProbability": 0.95,
+        "confidence": 0.93
+      },
+      "engineeringArea": {
+        "value": "database",
+        "selectedProbability": 0.94,
+        "confidence": 0.92
+      },
+      "priority": {
+        "value": "high",
+        "selectedProbability": 0.93,
+        "confidence": 0.91
+      },
+      "securityProbabilityYes": 0.1,
+      "humanReviewProbabilityYes": 0.12,
+      "inputTruncated": false
+    },
+    {
+      "id": "JF-004",
+      "issueType": {
+        "value": "bug",
+        "selectedProbability": 0.92,
+        "confidence": 0.9
+      },
+      "engineeringArea": {
+        "value": "devops",
+        "selectedProbability": 0.9,
+        "confidence": 0.88
+      },
+      "priority": {
+        "value": "high",
+        "selectedProbability": 0.89,
+        "confidence": 0.87
+      },
+      "securityProbabilityYes": 0.14,
+      "humanReviewProbabilityYes": 0.2,
+      "inputTruncated": false
+    },
+    {
+      "id": "JF-005",
+      "issueType": {
+        "value": "feature",
+        "selectedProbability": 0.95,
+        "confidence": 0.93
+      },
+      "engineeringArea": {
+        "value": "frontend",
+        "selectedProbability": 0.94,
+        "confidence": 0.92
+      },
+      "priority": {
+        "value": "medium",
+        "selectedProbability": 0.93,
+        "confidence": 0.91
+      },
+      "securityProbabilityYes": 0.02,
+      "humanReviewProbabilityYes": 0.08,
+      "inputTruncated": false
+    },
+    {
+      "id": "JF-006",
+      "issueType": {
+        "value": "documentation",
+        "selectedProbability": 0.98,
+        "confidence": 0.96
+      },
+      "engineeringArea": {
+        "value": "general",
+        "selectedProbability": 0.96,
+        "confidence": 0.94
+      },
+      "priority": {
+        "value": "low",
+        "selectedProbability": 0.95,
+        "confidence": 0.93
+      },
+      "securityProbabilityYes": 0.01,
+      "humanReviewProbabilityYes": 0.05,
+      "inputTruncated": false
+    },
+    {
+      "id": "JF-007",
+      "issueType": {
+        "value": "question",
+        "selectedProbability": 0.95,
+        "confidence": 0.93
+      },
+      "engineeringArea": {
+        "value": "general",
+        "selectedProbability": 0.93,
+        "confidence": 0.91
+      },
+      "priority": {
+        "value": "medium",
+        "selectedProbability": 0.91,
+        "confidence": 0.9
+      },
+      "securityProbabilityYes": 0.03,
+      "humanReviewProbabilityYes": 0.12,
+      "inputTruncated": false
+    },
+    {
+      "id": "JF-008",
+      "issueType": {
+        "value": "maintenance",
+        "selectedProbability": 0.94,
+        "confidence": 0.92
+      },
+      "engineeringArea": {
+        "value": "devops",
+        "selectedProbability": 0.93,
+        "confidence": 0.91
+      },
+      "priority": {
+        "value": "medium",
+        "selectedProbability": 0.92,
+        "confidence": 0.9
+      },
+      "securityProbabilityYes": 0.12,
+      "humanReviewProbabilityYes": 0.16,
+      "inputTruncated": false
+    },
+    {
+      "id": "JF-009",
+      "issueType": {
+        "value": "bug",
+        "selectedProbability": 0.93,
+        "confidence": 0.91
+      },
+      "engineeringArea": {
+        "value": "ai",
+        "selectedProbability": 0.91,
+        "confidence": 0.9
+      },
+      "priority": {
+        "value": "high",
+        "selectedProbability": 0.9,
+        "confidence": 0.88
+      },
+      "securityProbabilityYes": 0.32,
+      "humanReviewProbabilityYes": 0.72,
+      "inputTruncated": false
+    },
+    {
+      "id": "JF-010",
+      "issueType": {
+        "value": "feature",
+        "selectedProbability": 0.9,
+        "confidence": 0.88
+      },
+      "engineeringArea": {
+        "value": "general",
+        "selectedProbability": 0.84,
+        "confidence": 0.81
+      },
+      "priority": {
+        "value": "medium",
+        "selectedProbability": 0.88,
+        "confidence": 0.85
+      },
+      "securityProbabilityYes": 0.04,
+      "humanReviewProbabilityYes": 0.22,
+      "inputTruncated": false
+    },
+    {
+      "id": "JF-011",
+      "issueType": {
+        "value": "bug",
+        "selectedProbability": 0.98,
+        "confidence": 0.97
+      },
+      "engineeringArea": {
+        "value": "security",
+        "selectedProbability": 0.97,
+        "confidence": 0.96
+      },
+      "priority": {
+        "value": "critical",
+        "selectedProbability": 0.96,
+        "confidence": 0.95
+      },
+      "securityProbabilityYes": 0.96,
+      "humanReviewProbabilityYes": 0.94,
+      "inputTruncated": false
+    },
+    {
+      "id": "JF-012",
+      "issueType": {
+        "value": "bug",
+        "selectedProbability": 0.95,
+        "confidence": 0.93
+      },
+      "engineeringArea": {
+        "value": "security",
+        "selectedProbability": 0.94,
+        "confidence": 0.92
+      },
+      "priority": {
+        "value": "high",
+        "selectedProbability": 0.91,
+        "confidence": 0.89
+      },
+      "securityProbabilityYes": 0.87,
+      "humanReviewProbabilityYes": 0.81,
+      "inputTruncated": false
+    },
+    {
+      "id": "JF-013",
+      "issueType": {
+        "value": "bug",
+        "selectedProbability": 0.94,
+        "confidence": 0.92
+      },
+      "engineeringArea": {
+        "value": "backend",
+        "selectedProbability": 0.91,
+        "confidence": 0.89
+      },
+      "priority": {
+        "value": "high",
+        "selectedProbability": 0.9,
+        "confidence": 0.88
+      },
+      "securityProbabilityYes": 0.78,
+      "humanReviewProbabilityYes": 0.76,
+      "inputTruncated": false
+    },
+    {
+      "id": "JF-014",
+      "issueType": {
+        "value": "bug",
+        "selectedProbability": 0.98,
+        "confidence": 0.96
+      },
+      "engineeringArea": {
+        "value": "devops",
+        "selectedProbability": 0.96,
+        "confidence": 0.94
+      },
+      "priority": {
+        "value": "critical",
+        "selectedProbability": 0.97,
+        "confidence": 0.95
+      },
+      "securityProbabilityYes": 0.93,
+      "humanReviewProbabilityYes": 0.91,
+      "inputTruncated": false
+    },
+    {
+      "id": "JF-015",
+      "issueType": {
+        "value": "documentation",
+        "selectedProbability": 0.98,
+        "confidence": 0.97
+      },
+      "engineeringArea": {
+        "value": "general",
+        "selectedProbability": 0.96,
+        "confidence": 0.95
+      },
+      "priority": {
+        "value": "low",
+        "selectedProbability": 0.95,
+        "confidence": 0.94
+      },
+      "securityProbabilityYes": 0.01,
+      "humanReviewProbabilityYes": 0.04,
+      "inputTruncated": false
+    },
+    {
+      "id": "JF-016",
+      "issueType": {
+        "value": "bug",
+        "selectedProbability": 0.89,
+        "confidence": 0.87
+      },
+      "engineeringArea": {
+        "value": "frontend",
+        "selectedProbability": 0.88,
+        "confidence": 0.86
+      },
+      "priority": {
+        "value": "medium",
+        "selectedProbability": 0.84,
+        "confidence": 0.82
+      },
+      "securityProbabilityYes": 0.02,
+      "humanReviewProbabilityYes": 0.18,
+      "inputTruncated": false
+    },
+    {
+      "id": "JF-017",
+      "issueType": {
+        "value": "question",
+        "selectedProbability": 0.72,
+        "confidence": 0.6
+      },
+      "engineeringArea": {
+        "value": "general",
+        "selectedProbability": 0.65,
+        "confidence": 0.55
+      },
+      "priority": {
+        "value": "low",
+        "selectedProbability": 0.7,
+        "confidence": 0.58
+      },
+      "securityProbabilityYes": 0.06,
+      "humanReviewProbabilityYes": 0.66,
+      "inputTruncated": false
+    },
+    {
+      "id": "JF-018",
+      "issueType": {
+        "value": "bug",
+        "selectedProbability": 0.74,
+        "confidence": 0.7
+      },
+      "engineeringArea": {
+        "value": "backend",
+        "selectedProbability": 0.62,
+        "confidence": 0.58
+      },
+      "priority": {
+        "value": "high",
+        "selectedProbability": 0.59,
+        "confidence": 0.56
+      },
+      "securityProbabilityYes": 0.12,
+      "humanReviewProbabilityYes": 0.68,
+      "inputTruncated": false
+    },
+    {
+      "id": "JF-019",
+      "issueType": {
+        "value": "feature",
+        "selectedProbability": 0.72,
+        "confidence": 0.68
+      },
+      "engineeringArea": {
+        "value": "frontend",
+        "selectedProbability": 0.7,
+        "confidence": 0.65
+      },
+      "priority": {
+        "value": "low",
+        "selectedProbability": 0.68,
+        "confidence": 0.64
+      },
+      "securityProbabilityYes": 0.03,
+      "humanReviewProbabilityYes": 0.71,
+      "inputTruncated": false
+    },
+    {
+      "id": "JF-020",
+      "issueType": {
+        "value": "feature",
+        "selectedProbability": 0.95,
+        "confidence": 0.93
+      },
+      "engineeringArea": {
+        "value": "database",
+        "selectedProbability": 0.94,
+        "confidence": 0.92
+      },
+      "priority": {
+        "value": "medium",
+        "selectedProbability": 0.93,
+        "confidence": 0.91
+      },
+      "securityProbabilityYes": 0.05,
+      "humanReviewProbabilityYes": 0.11,
+      "inputTruncated": false
+    },
+    {
+      "id": "JF-021",
+      "issueType": {
+        "value": "feature",
+        "selectedProbability": 0.9,
+        "confidence": 0.88
+      },
+      "engineeringArea": {
+        "value": "backend",
+        "selectedProbability": 0.88,
+        "confidence": 0.85
+      },
+      "priority": {
+        "value": "medium",
+        "selectedProbability": 0.87,
+        "confidence": 0.83
+      },
+      "securityProbabilityYes": 0.07,
+      "humanReviewProbabilityYes": 0.19,
+      "inputTruncated": false
+    },
+    {
+      "id": "JF-022",
+      "issueType": {
+        "value": "maintenance",
+        "selectedProbability": 0.96,
+        "confidence": 0.94
+      },
+      "engineeringArea": {
+        "value": "devops",
+        "selectedProbability": 0.95,
+        "confidence": 0.93
+      },
+      "priority": {
+        "value": "low",
+        "selectedProbability": 0.94,
+        "confidence": 0.92
+      },
+      "securityProbabilityYes": 0.04,
+      "humanReviewProbabilityYes": 0.07,
+      "inputTruncated": false
+    },
+    {
+      "id": "JF-023",
+      "issueType": {
+        "value": "question",
+        "selectedProbability": 0.94,
+        "confidence": 0.92
+      },
+      "engineeringArea": {
+        "value": "security",
+        "selectedProbability": 0.96,
+        "confidence": 0.94
+      },
+      "priority": {
+        "value": "high",
+        "selectedProbability": 0.9,
+        "confidence": 0.88
+      },
+      "securityProbabilityYes": 0.91,
+      "humanReviewProbabilityYes": 0.89,
+      "inputTruncated": false
+    },
+    {
+      "id": "JF-024",
+      "issueType": {
+        "value": "bug",
+        "selectedProbability": 0.84,
+        "confidence": 0.8
+      },
+      "engineeringArea": {
+        "value": "ai",
+        "selectedProbability": 0.86,
+        "confidence": 0.82
+      },
+      "priority": {
+        "value": "high",
+        "selectedProbability": 0.78,
+        "confidence": 0.76
+      },
+      "securityProbabilityYes": 0.33,
+      "humanReviewProbabilityYes": 0.58,
+      "inputTruncated": false
+    },
+    {
+      "id": "JF-025",
+      "issueType": {
+        "value": "maintenance",
+        "selectedProbability": 0.96,
+        "confidence": 0.94
+      },
+      "engineeringArea": {
+        "value": "general",
+        "selectedProbability": 0.94,
+        "confidence": 0.92
+      },
+      "priority": {
+        "value": "low",
+        "selectedProbability": 0.93,
+        "confidence": 0.91
+      },
+      "securityProbabilityYes": 0.02,
+      "humanReviewProbabilityYes": 0.06,
+      "inputTruncated": false
+    },
+    {
+      "id": "JF-026",
+      "issueType": {
+        "value": "documentation",
+        "selectedProbability": 0.86,
+        "confidence": 0.82
+      },
+      "engineeringArea": {
+        "value": "general",
+        "selectedProbability": 0.88,
+        "confidence": 0.84
+      },
+      "priority": {
+        "value": "medium",
+        "selectedProbability": 0.85,
+        "confidence": 0.8
+      },
+      "securityProbabilityYes": 0.03,
+      "humanReviewProbabilityYes": 0.24,
+      "inputTruncated": false
+    },
+    {
+      "id": "JF-027",
+      "issueType": {
+        "value": "feature",
+        "selectedProbability": 0.96,
+        "confidence": 0.94
+      },
+      "engineeringArea": {
+        "value": "frontend",
+        "selectedProbability": 0.95,
+        "confidence": 0.93
+      },
+      "priority": {
+        "value": "medium",
+        "selectedProbability": 0.92,
+        "confidence": 0.9
+      },
+      "securityProbabilityYes": 0.02,
+      "humanReviewProbabilityYes": 0.08,
+      "inputTruncated": false
+    },
+    {
+      "id": "JF-028",
+      "issueType": {
+        "value": "bug",
+        "selectedProbability": 0.97,
+        "confidence": 0.95
+      },
+      "engineeringArea": {
+        "value": "database",
+        "selectedProbability": 0.96,
+        "confidence": 0.94
+      },
+      "priority": {
+        "value": "critical",
+        "selectedProbability": 0.98,
+        "confidence": 0.96
+      },
+      "securityProbabilityYes": 0.18,
+      "humanReviewProbabilityYes": 0.82,
+      "inputTruncated": false
+    },
+    {
+      "id": "JF-029",
+      "issueType": {
+        "value": "question",
+        "selectedProbability": 0.84,
+        "confidence": 0.8
+      },
+      "engineeringArea": {
+        "value": "devops",
+        "selectedProbability": 0.8,
+        "confidence": 0.77
+      },
+      "priority": {
+        "value": "medium",
+        "selectedProbability": 0.81,
+        "confidence": 0.76
+      },
+      "securityProbabilityYes": 0.08,
+      "humanReviewProbabilityYes": 0.42,
+      "inputTruncated": false
+    },
+    {
+      "id": "JF-030",
+      "issueType": {
+        "value": "bug",
+        "selectedProbability": 0.94,
+        "confidence": 0.92
+      },
+      "engineeringArea": {
+        "value": "devops",
+        "selectedProbability": 0.93,
+        "confidence": 0.91
+      },
+      "priority": {
+        "value": "high",
+        "selectedProbability": 0.92,
+        "confidence": 0.9
+      },
+      "securityProbabilityYes": 0.18,
+      "humanReviewProbabilityYes": 0.42,
+      "inputTruncated": false
+    }
+  ]
+}
