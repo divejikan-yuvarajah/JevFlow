@@ -11,7 +11,6 @@
 
 ## Deferred capabilities
 
-- Add real GitHub automation and mutations in Task 04.
 - Consider the optional Next.js presentation layer in Task 06.
 
 OpenAI Codex supports development only. TypeSafe AI Jev is JevFlow's runtime inference provider.
@@ -35,3 +34,15 @@ OpenAI Codex supports development only. TypeSafe AI Jev is JevFlow's runtime inf
 - `security-review` means human security review is warranted; it does not assert that a vulnerability exists.
 - Stable reason codes are: `choice_auto_threshold_met`, `choice_review_threshold_met`, `choice_below_review_threshold`, `critical_priority_manual_review`, `security_probability_manual_review`, `human_review_probability_manual_review`, `security_probability_caution`, `human_review_probability_caution`, and `input_truncated_review_suggested`.
 - Labels come only from static category and mode maps. Human-review plans receive no speculative category labels, and Task 03 never applies labels through GitHub.
+
+## GitHub automation
+
+- Trust the workflow's `GITHUB_REPOSITORY` and a matching, validated event identity. Manual dispatch fetches the current issue by a validated positive integer and rejects pull requests.
+- Read event payloads only from a bounded `GITHUB_EVENT_PATH`. Issue text and inference output are data and never enter shell commands, action references, concurrency keys, or file paths.
+- Give the GitHub adapter a narrow injected interface. The Actions token is repository-scoped and workflows explicitly request only `contents: read` and `issues: write`.
+- Manage only exact names in the static catalog. Preserve unrelated labels and similar prefixes, never replace the entire label set, and add desired labels before removing stale labels.
+- Treat `security-review` as sticky because only a human should clear the request. A normal later run may update other managed labels without removing it.
+- On provider, normalization, or policy failure for a trusted issue, use a distinct human-review fallback. Preserve categories and security labels, remove only stale automatic/review markers, and never fabricate probabilities.
+- Keep summaries short and sanitized. They report normalized decisions and actual API operations, while excluding raw issue bodies and provider errors.
+- Keep source and target repository workflows separate. Issue workflows must exist on the receiving repository's default branch, and its automatic token acts only in that repository.
+- Defer issue-facing bot comments. The Actions job summary is the Task 04 report surface and avoids comment ownership and duplication risk.

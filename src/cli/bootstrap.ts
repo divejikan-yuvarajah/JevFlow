@@ -15,5 +15,6 @@ export function runBootstrap(
   write(`Review threshold: ${config.reviewThreshold.toFixed(2)}`);
   write('Jev integration: available through analyzeIssue (no request made)');
   write('Confidence policy and local label proposals: ready');
-  write('Next phase: Task 04 — GitHub integration and automation');
+  write('GitHub automation: ready through the guarded Actions runner');
+  write('Next phase: Task 05 — testing, evaluation, and benchmarking');
 }

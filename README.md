@@ -6,7 +6,7 @@ JevFlow is being built to help maintainers classify incoming GitHub issues, eval
 
 ## Current status
 
-Tasks 01–03 provide the runnable foundation, Jev triage engine, and deterministic confidence policy:
+Tasks 01–04 provide the runnable foundation, Jev triage engine, deterministic confidence policy, and secure GitHub automation:
 
 - Node.js 20+ with strict TypeScript ESM
 - canonical issue classification vocabulary and input type
@@ -19,8 +19,12 @@ Tasks 01–03 provide the runnable foundation, Jev triage engine, and determinis
 - conservative confidence gating and safety escalation
 - allowlisted local GitHub label proposals
 - a file-driven local triage CLI with human and JSON output
+- bounded and repository-verified GitHub event parsing
+- allowlisted, minimal GitHub label reconciliation with safe failure escalation
+- sanitized GitHub Actions summaries
+- source-repository and separately configurable target-repository workflows
 
-Actual GitHub mutations and the optional dashboard remain planned for later phases. The regular bootstrap, validation commands, and CLI help do not make network requests.
+The automation can mutate labels only when the guarded Actions runner receives a supported, validated event and repository-scoped credentials. No live workflow has been deployed or tested as part of the offline implementation. The optional dashboard remains planned for a later phase. The regular bootstrap, validation commands, and CLI help do not make network requests.
 
 ## Requirements
 
@@ -75,11 +79,17 @@ npm run triage -- --file examples/sample-issue.json
 npm run triage -- --file examples/sample-issue.json --json
 ```
 
-The file-based commands make one application-level Jev request and therefore require a locally configured `TYPESAFE_API_KEY`. Run them only when live inference is explicitly intended. `--help` is offline and requires no key. Proposed labels are not applied to any issue; Task 04 will own GitHub API mutations.
+The file-based commands make one application-level Jev request and therefore require a locally configured `TYPESAFE_API_KEY`. Run them only when live inference is explicitly intended. `--help` is offline and requires no key. Proposed labels are not applied to any issue by this local CLI.
+
+## GitHub automation
+
+The guarded `npm run triage:github` entry point reads a bounded `GITHUB_EVENT_PATH` on GitHub Actions. It supports `issues.opened` and validated manual dispatch by issue number. It then uses the existing analyzer, policy, and label mapper before applying only exact labels from JevFlow's static catalog. A provider or policy failure on an already trusted issue attempts a `jev:human-review` fallback without inventing category decisions.
+
+The main workflow at `.github/workflows/jevflow-triage.yml` applies only to this repository. The separate template in `deploy/target-repo/` must be configured with a reviewed public source owner and immutable commit SHA, then copied to the target repository's default branch. See the [target repository install guide](deploy/target-repo/README.md). Live inference and GitHub mutation can consume paid capacity and require explicit authorization.
 
 ## Repository roles
 
-This `jevflow` repository contains the application source and documentation. The separate `jevflow-test-repo` is disposable and reserved for explicit GitHub automation tests in Task 04; it must not be merged into this repository.
+This `jevflow` repository contains the application source and documentation. The separate `jevflow-test-repo` is disposable and reserved for explicitly authorized integration and evaluation runs; it must not be merged into this repository.
 
 ## Documentation
 
