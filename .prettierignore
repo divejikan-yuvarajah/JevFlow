@@ -1,0 +1,7 @@
+node_modules/
+dist/
+coverage/
+
+# Preserve supplied phase instructions verbatim.
+Prompts/JevFlow_*.md
+Prompts/task-*.md
