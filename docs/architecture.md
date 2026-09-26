@@ -32,6 +32,18 @@ IssueInput
 
 For choices, the selected option probability and SDK-reported confidence remain separate. For NOUL questions, `noul` is P(YES) from zero through one. The analyzer does not turn either metric into an automation decision.
 
+## Task 03 flow
+
+```text
+analyzeIssue TriageResult
+  → pure confidence and safety policy
+  → explainable TriagePlan
+  → static allowlisted label proposal
+  → human-readable or JSON local CLI output
+```
+
+The policy uses the minimum of selected probability and reported confidence for each choice, then the weakest of the three choice scores. Critical priority, security P(YES), human-review P(YES), and truncated input can only raise the review mode. The label mapper performs no GitHub operation. Task 04 will reconcile proposed labels with real issues.
+
 ## Module boundaries
 
 - `src/domain/` owns canonical application types and vocabulary. Future modules consume these definitions instead of duplicating strings.
@@ -39,7 +51,8 @@ For choices, the selected option probability and SDK-reported confidence remain 
 - `src/cli/` provides the current offline bootstrap and will remain an entry point as later capabilities arrive.
 - `src/jev/` owns bounded state, trusted question definitions, and the lazy official SDK adapter.
 - `src/triage/` orchestrates analysis and exposes the validated provider-independent result.
-- `src/policy/` will apply deterministic confidence and escalation rules in Task 03.
-- `src/github/` will contain GitHub parsing and side effects in Task 04.
+- `src/policy/` applies deterministic confidence and escalation rules without side effects.
+- `src/github/labels.ts` contains only the canonical label allowlist and pure proposal mapping.
+- Future Task 04 GitHub modules will own event parsing and API side effects.
 
 GitHub API calls must not enter the Jev adapter, policy must remain independent of presentation code, and untrusted issue text must be bounded before it is sent to an inference provider.
