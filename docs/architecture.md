@@ -63,6 +63,20 @@ Unsupported events are skipped before credentials or inference are used. Automat
 
 The GitHub API boundary exposes only get issue, list labels, ensure a catalog label, add approved labels, and remove one approved label. It never replaces the complete label set. `security-review` is sticky and requires human removal. Operation reports record actual successes and failures so partial work cannot appear successful.
 
+## Task 05 evaluation flow
+
+```text
+validated 30-case synthetic dataset
+  → offline authored fixture analyzer (default) or explicitly confirmed live analyzeIssue
+  → existing normalized TriageResult contract
+  → existing confidence policy and proposed-label mapper
+  → sanitized per-case records
+  → pure metrics with explicit denominators
+  → JSON or Markdown report
+```
+
+Evaluation is sequential and dependency-injected. A case failure is recorded and later cases continue. Fixture mode never constructs the Jev provider and excludes synthetic latency metadata from provider latency. Live mode calls the existing analyzer and never falls back to fixtures. Neither mode constructs Octokit or applies GitHub mutations; proposed labels remain policy output.
+
 ## Module boundaries
 
 - `src/domain/` owns canonical application types and vocabulary. Future modules consume these definitions instead of duplicating strings.
@@ -73,5 +87,6 @@ The GitHub API boundary exposes only get issue, list labels, ensure a catalog la
 - `src/policy/` applies deterministic confidence and escalation rules without side effects.
 - `src/github/labels.ts` owns the canonical label allowlist, definitions, and pure proposal mapping.
 - The remaining `src/github/` modules own event parsing, the injected Octokit adapter, reconciliation, orchestration, operation reports, and summary rendering.
+- `src/evaluation/` owns dataset and fixture validation, fixture adaptation, sequential evaluation, pure metrics, and sanitized report rendering. Versioned content and annotation guidance live under `evals/`.
 
 GitHub API calls must not enter the Jev adapter, policy must remain independent of presentation code, and untrusted issue text must be bounded before it is sent to an inference provider.

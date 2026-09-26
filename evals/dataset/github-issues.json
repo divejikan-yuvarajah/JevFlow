@@ -1,0 +1,460 @@
+{
+  "schemaVersion": "1.0",
+  "datasetVersion": "2026.09.1",
+  "description": "Thirty human-authored synthetic GitHub issue scenarios for offline JevFlow evaluation. They describe no real incidents, users, repositories, or credentials.",
+  "issues": [
+    {
+      "id": "JF-001",
+      "title": "Checkout API returns 500 when discount has expired",
+      "body": "Reproduction: create an expired discount, add one item, then submit checkout. The API returns 500 instead of a validation response. The stack trace points to discount validation in the order service.",
+      "tags": ["backend", "bug", "reproduction"],
+      "expected": {
+        "issueType": "bug",
+        "engineeringArea": "backend",
+        "priority": "high",
+        "securitySensitive": false,
+        "needsHumanReview": false,
+        "annotationConfidence": "high",
+        "rationale": "A reproducible server failure blocks checkout and is localized to backend validation."
+      }
+    },
+    {
+      "id": "JF-002",
+      "title": "Modal close button disappears at 200 percent zoom",
+      "body": "At browser zoom 200%, the settings modal overflows and its close button is outside the viewport. Keyboard escape still closes it.",
+      "tags": ["frontend", "bug", "accessibility"],
+      "expected": {
+        "issueType": "bug",
+        "engineeringArea": "frontend",
+        "priority": "medium",
+        "securitySensitive": false,
+        "needsHumanReview": false,
+        "annotationConfidence": "high",
+        "rationale": "This is a visible responsive-layout defect with an available workaround."
+      }
+    },
+    {
+      "id": "JF-003",
+      "title": "Migration leaves duplicate invoice sequence values",
+      "body": "After upgrading from schema 18 to 19, two concurrent invoice inserts can receive the same sequence value. A unique constraint then rejects one transaction.",
+      "tags": ["database", "bug", "migration"],
+      "expected": {
+        "issueType": "bug",
+        "engineeringArea": "database",
+        "priority": "high",
+        "securitySensitive": false,
+        "needsHumanReview": false,
+        "annotationConfidence": "high",
+        "rationale": "The defect involves migration and database sequencing and can reject production writes."
+      }
+    },
+    {
+      "id": "JF-004",
+      "title": "Linux release job omits generated license bundle",
+      "body": "The release workflow succeeds, but the Linux archive does not include THIRD_PARTY_LICENSES.txt. macOS and Windows archives include it.",
+      "tags": ["devops", "bug", "ci"],
+      "expected": {
+        "issueType": "bug",
+        "engineeringArea": "devops",
+        "priority": "high",
+        "securitySensitive": false,
+        "needsHumanReview": false,
+        "annotationConfidence": "high",
+        "rationale": "A packaging workflow defect creates a compliance risk in one release artifact."
+      }
+    },
+    {
+      "id": "JF-005",
+      "title": "Add keyboard shortcut to open the command palette",
+      "body": "Please add a documented keyboard shortcut for opening the command palette and show it in the help overlay.",
+      "tags": ["frontend", "feature", "accessibility"],
+      "expected": {
+        "issueType": "feature",
+        "engineeringArea": "frontend",
+        "priority": "medium",
+        "securitySensitive": false,
+        "needsHumanReview": false,
+        "annotationConfidence": "high",
+        "rationale": "This requests a user-interface capability with clear scope and moderate value."
+      }
+    },
+    {
+      "id": "JF-006",
+      "title": "Document how retry backoff is calculated",
+      "body": "The configuration reference lists retry count but not the delay formula, jitter, or maximum delay. Add an example table.",
+      "tags": ["documentation", "general", "clarity"],
+      "expected": {
+        "issueType": "documentation",
+        "engineeringArea": "general",
+        "priority": "low",
+        "securitySensitive": false,
+        "needsHumanReview": false,
+        "annotationConfidence": "high",
+        "rationale": "The requested change is documentation-only and has no urgent runtime impact."
+      }
+    },
+    {
+      "id": "JF-007",
+      "title": "Is offline mode expected to cache avatars?",
+      "body": "When the network is disconnected, text content remains available but avatars disappear. Is this intended behavior or should avatars be cached?",
+      "tags": ["question", "general", "behavior"],
+      "expected": {
+        "issueType": "question",
+        "engineeringArea": "general",
+        "priority": "low",
+        "securitySensitive": false,
+        "needsHumanReview": false,
+        "annotationConfidence": "high",
+        "rationale": "The reporter asks for product-behavior clarification rather than requesting a definite change."
+      }
+    },
+    {
+      "id": "JF-008",
+      "title": "Upgrade the container base image to the current LTS",
+      "body": "The build still uses the previous LTS base image. Update it, refresh the lock data, and confirm the image scan remains clean.",
+      "tags": ["maintenance", "devops", "dependency"],
+      "expected": {
+        "issueType": "maintenance",
+        "engineeringArea": "devops",
+        "priority": "medium",
+        "securitySensitive": false,
+        "needsHumanReview": false,
+        "annotationConfidence": "high",
+        "rationale": "This is planned build-environment upkeep without a reported active vulnerability."
+      }
+    },
+    {
+      "id": "JF-009",
+      "title": "RAG answers cite a document excluded from the workspace",
+      "body": "A user removed a document from the workspace, but answers can still cite passages from its old embedding. Re-indexing fixes the issue temporarily.",
+      "tags": ["ai", "bug", "rag", "risk"],
+      "expected": {
+        "issueType": "bug",
+        "engineeringArea": "ai",
+        "priority": "high",
+        "securitySensitive": false,
+        "needsHumanReview": true,
+        "annotationConfidence": "medium",
+        "rationale": "Stale retrieval results are an AI data-lifecycle defect with consequential information-boundary implications requiring review."
+      }
+    },
+    {
+      "id": "JF-010",
+      "title": "Add citation grouping for answers using the same source",
+      "body": "When an answer uses several passages from one source, group the citations under a single expandable source heading.",
+      "tags": ["ai", "feature", "rag"],
+      "expected": {
+        "issueType": "feature",
+        "engineeringArea": "ai",
+        "priority": "medium",
+        "securitySensitive": false,
+        "needsHumanReview": false,
+        "annotationConfidence": "high",
+        "rationale": "This is a bounded improvement to the presentation of AI retrieval citations."
+      }
+    },
+    {
+      "id": "JF-011",
+      "title": "Tenant admin can read another tenant's audit export by changing the ID",
+      "body": "In a fictional test environment, changing the numeric export identifier returns an audit file owned by another tenant. Authorization should be checked before file retrieval.",
+      "tags": ["security", "bug", "idor", "critical"],
+      "expected": {
+        "issueType": "bug",
+        "engineeringArea": "security",
+        "priority": "critical",
+        "securitySensitive": true,
+        "needsHumanReview": true,
+        "annotationConfidence": "high",
+        "rationale": "The scenario describes suspected cross-tenant authorization failure and requires immediate human security review."
+      }
+    },
+    {
+      "id": "JF-012",
+      "title": "Password reset response reveals whether an account exists",
+      "body": "The reset endpoint returns different status codes and messages for known and unknown fictional accounts. The responses should avoid account enumeration.",
+      "tags": ["security", "bug", "privacy"],
+      "expected": {
+        "issueType": "bug",
+        "engineeringArea": "security",
+        "priority": "high",
+        "securitySensitive": true,
+        "needsHumanReview": true,
+        "annotationConfidence": "high",
+        "rationale": "Observable response differences may expose account existence and warrant security review."
+      }
+    },
+    {
+      "id": "JF-013",
+      "title": "Export endpoint ignores project membership after role downgrade",
+      "body": "A user whose role was downgraded can continue exporting a project until their session expires. A fresh session is denied as expected.",
+      "tags": ["backend", "bug", "authorization", "security"],
+      "expected": {
+        "issueType": "bug",
+        "engineeringArea": "backend",
+        "priority": "high",
+        "securitySensitive": true,
+        "needsHumanReview": true,
+        "annotationConfidence": "high",
+        "rationale": "The primary defect is backend authorization/session invalidation with a security impact."
+      }
+    },
+    {
+      "id": "JF-014",
+      "title": "Fictional staging credential appears in CI debug logs",
+      "body": "A debug step prints an unredacted fictional staging credential marker in the job log. Remove the output, rotate the test credential, and inspect log access.",
+      "tags": ["devops", "bug", "security", "critical"],
+      "expected": {
+        "issueType": "bug",
+        "engineeringArea": "devops",
+        "priority": "critical",
+        "securitySensitive": true,
+        "needsHumanReview": true,
+        "annotationConfidence": "high",
+        "rationale": "CI log exposure and credential handling require urgent operational and security response."
+      }
+    },
+    {
+      "id": "JF-015",
+      "title": "Añadir ejemplo de configuración para equipos multilingües",
+      "body": "La guía no explica cómo definir idiomas alternativos. Añadir un ejemplo breve con español y 日本語, sin cambiar el comportamiento de la aplicación.",
+      "tags": ["documentation", "unicode", "localization"],
+      "expected": {
+        "issueType": "documentation",
+        "engineeringArea": "general",
+        "priority": "low",
+        "securitySensitive": false,
+        "needsHumanReview": false,
+        "annotationConfidence": "high",
+        "rationale": "The request adds a multilingual documentation example without runtime changes."
+      }
+    },
+    {
+      "id": "JF-016",
+      "title": "検索画面で絵文字を含む名前が途中で切れる",
+      "body": "手順:\n1. 名前を『開発チーム 🚀』にする\n2. 検索結果を狭い画面で開く\n3. 絵文字の前で表示が切れる\nデータ自体は保存されています。",
+      "tags": ["frontend", "bug", "unicode", "multiline"],
+      "expected": {
+        "issueType": "bug",
+        "engineeringArea": "frontend",
+        "priority": "medium",
+        "securitySensitive": false,
+        "needsHumanReview": false,
+        "annotationConfidence": "high",
+        "rationale": "The multiline report identifies a Unicode rendering defect limited to the search interface."
+      }
+    },
+    {
+      "id": "JF-017",
+      "title": "Does sync run automatically?",
+      "body": "",
+      "tags": ["question", "ambiguous", "empty-body"],
+      "expected": {
+        "issueType": "question",
+        "engineeringArea": "general",
+        "priority": "low",
+        "securitySensitive": false,
+        "needsHumanReview": true,
+        "annotationConfidence": "low",
+        "rationale": "The empty body leaves the product area and intended sync behavior unspecified, so clarification is needed."
+      }
+    },
+    {
+      "id": "JF-018",
+      "title": "Save sometimes fails after editing settings",
+      "body": "The save button spins and then stops. It happened twice this week, but there are no console logs or reproduction steps.",
+      "tags": ["bug", "ambiguous", "missing-reproduction"],
+      "expected": {
+        "issueType": "bug",
+        "engineeringArea": "general",
+        "priority": "medium",
+        "securitySensitive": false,
+        "needsHumanReview": true,
+        "acceptableAlternativeAreas": ["frontend", "backend"],
+        "annotationConfidence": "low",
+        "rationale": "A failure is reported, but evidence cannot distinguish frontend from backend and needs maintainer triage."
+      }
+    },
+    {
+      "id": "JF-019",
+      "title": "Please make the dashboard better",
+      "body": "The dashboard should be easier to use and show more useful information.",
+      "tags": ["feature", "ambiguous", "frontend"],
+      "expected": {
+        "issueType": "feature",
+        "engineeringArea": "general",
+        "priority": "low",
+        "securitySensitive": false,
+        "needsHumanReview": true,
+        "acceptableAlternativeAreas": ["frontend"],
+        "annotationConfidence": "low",
+        "rationale": "The request lacks concrete scope or acceptance criteria and could reasonably begin as general or frontend work."
+      }
+    },
+    {
+      "id": "JF-020",
+      "title": "Support read replicas for analytics queries",
+      "body": "Allow analytics-only queries to use a configured read replica while transactional reads remain on the primary database.",
+      "tags": ["feature", "database", "scalability"],
+      "expected": {
+        "issueType": "feature",
+        "engineeringArea": "database",
+        "priority": "medium",
+        "securitySensitive": false,
+        "needsHumanReview": false,
+        "annotationConfidence": "high",
+        "rationale": "This is a clear database scalability feature with no immediate outage."
+      }
+    },
+    {
+      "id": "JF-021",
+      "title": "Add batch endpoint for archiving completed jobs",
+      "body": "Provide a server endpoint that archives up to 100 completed job IDs in one request and returns item-level errors.",
+      "tags": ["feature", "backend", "api"],
+      "expected": {
+        "issueType": "feature",
+        "engineeringArea": "backend",
+        "priority": "medium",
+        "securitySensitive": false,
+        "needsHumanReview": false,
+        "annotationConfidence": "high",
+        "rationale": "The proposed batch API is a bounded backend enhancement."
+      }
+    },
+    {
+      "id": "JF-022",
+      "title": "Remove the retired nightly compatibility job",
+      "body": "The legacy runtime is no longer supported, but its nightly compatibility workflow still consumes runner time and always reports success.",
+      "tags": ["maintenance", "devops", "ci"],
+      "expected": {
+        "issueType": "maintenance",
+        "engineeringArea": "devops",
+        "priority": "low",
+        "securitySensitive": false,
+        "needsHumanReview": false,
+        "annotationConfidence": "high",
+        "rationale": "Removing an obsolete CI job is routine low-priority maintenance."
+      }
+    },
+    {
+      "id": "JF-023",
+      "title": "How should a possible data disclosure be reported privately?",
+      "body": "I may have found a way to view information that should be restricted. Where can I share fictional reproduction details without posting them publicly?",
+      "tags": ["question", "security", "disclosure"],
+      "expected": {
+        "issueType": "question",
+        "engineeringArea": "security",
+        "priority": "high",
+        "securitySensitive": true,
+        "needsHumanReview": true,
+        "annotationConfidence": "high",
+        "rationale": "The user asks a security disclosure question whose details require controlled human handling."
+      }
+    },
+    {
+      "id": "JF-024",
+      "title": "Agent repeats a destructive tool proposal after rejection",
+      "body": "In a synthetic sandbox, rejecting a file-deletion proposal causes the agent to propose the same action again with slightly different wording. No action was executed.",
+      "tags": ["ai", "bug", "agent", "risk"],
+      "expected": {
+        "issueType": "bug",
+        "engineeringArea": "ai",
+        "priority": "medium",
+        "securitySensitive": false,
+        "needsHumanReview": true,
+        "annotationConfidence": "medium",
+        "rationale": "Repeated unsafe tool proposals indicate an agent-control defect that needs human assessment despite no executed action."
+      }
+    },
+    {
+      "id": "JF-025",
+      "title": "Consolidate duplicate date parsing utilities",
+      "body": "Three packages contain nearly identical ISO date parsing helpers. Replace them with the shared utility and preserve current behavior.",
+      "tags": ["maintenance", "general", "refactor"],
+      "expected": {
+        "issueType": "maintenance",
+        "engineeringArea": "general",
+        "priority": "low",
+        "securitySensitive": false,
+        "needsHumanReview": false,
+        "annotationConfidence": "high",
+        "rationale": "This is internal refactoring with explicitly unchanged behavior."
+      }
+    },
+    {
+      "id": "JF-026",
+      "title": "Documentation build rejects valid code fence language",
+      "body": "The documentation build fails when a code fence uses the supported language name typescript. The same page built successfully before the parser update.",
+      "tags": ["bug", "documentation", "build"],
+      "expected": {
+        "issueType": "bug",
+        "engineeringArea": "general",
+        "priority": "medium",
+        "securitySensitive": false,
+        "needsHumanReview": false,
+        "annotationConfidence": "medium",
+        "rationale": "Although it affects documentation, the report describes a tooling regression rather than missing prose."
+      }
+    },
+    {
+      "id": "JF-027",
+      "title": "Add compact density option to data tables",
+      "body": "Users reviewing large result sets need a compact row-density setting that persists per browser.",
+      "tags": ["feature", "frontend", "usability"],
+      "expected": {
+        "issueType": "feature",
+        "engineeringArea": "frontend",
+        "priority": "medium",
+        "securitySensitive": false,
+        "needsHumanReview": false,
+        "annotationConfidence": "high",
+        "rationale": "The request is a well-scoped frontend presentation feature."
+      }
+    },
+    {
+      "id": "JF-028",
+      "title": "Primary database reports corrupted index after recovery",
+      "body": "After an interrupted recovery drill, integrity checks report a corrupted customer lookup index and production-like reads return inconsistent results.",
+      "tags": ["bug", "database", "critical", "integrity"],
+      "expected": {
+        "issueType": "bug",
+        "engineeringArea": "database",
+        "priority": "critical",
+        "securitySensitive": false,
+        "needsHumanReview": true,
+        "annotationConfidence": "high",
+        "rationale": "Potential data integrity failure is critical and requires human incident assessment."
+      }
+    },
+    {
+      "id": "JF-029",
+      "title": "Should webhook retries preserve the original trace ID?",
+      "body": "The retry worker creates a new trace ID for each delivery attempt. Is that expected, or should all attempts share the initial request trace?",
+      "tags": ["question", "backend", "ambiguous", "observability"],
+      "expected": {
+        "issueType": "question",
+        "engineeringArea": "backend",
+        "priority": "medium",
+        "securitySensitive": false,
+        "needsHumanReview": true,
+        "acceptableAlternativeAreas": ["devops"],
+        "annotationConfidence": "medium",
+        "rationale": "The behavior spans backend retry semantics and operational tracing, so a maintainer should clarify intent."
+      }
+    },
+    {
+      "id": "JF-030",
+      "title": "Deployment rollback loops when health checks alternate",
+      "body": "During a synthetic canary exercise, alternating healthy and unhealthy checks repeatedly trigger rollback evaluation. The deployment remains unavailable until an operator cancels it. Logs include many repeated check transitions and incomplete rollout context, so deeper operational review is needed.",
+      "tags": ["bug", "devops", "ambiguous", "availability"],
+      "expected": {
+        "issueType": "bug",
+        "engineeringArea": "devops",
+        "priority": "high",
+        "securitySensitive": false,
+        "needsHumanReview": true,
+        "annotationConfidence": "medium",
+        "rationale": "The availability-impacting rollback loop is high priority and its incomplete operational context warrants human review."
+      }
+    }
+  ]
+}

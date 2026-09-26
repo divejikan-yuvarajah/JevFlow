@@ -1,6 +1,9 @@
 node_modules/
 dist/
 coverage/
+evals/results/*.json
+evals/results/*.md
+!evals/results/.gitkeep
 
 .env
 .env.*

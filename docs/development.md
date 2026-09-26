@@ -22,6 +22,8 @@ Common commands:
 - `npm run check` runs formatting, type checking, linting, tests, and build in sequence.
 - `npm run triage -- --help` shows the local file-driven CLI without requiring credentials.
 - `npm run triage:github` is the guarded GitHub Actions runner; do not invoke it as a local smoke test.
+- `npm run eval -- --mode fixture` runs the complete deterministic offline evaluation.
+- `npm run eval:fixtures` is the explicit fixture-mode shorthand.
 - `npm run smoke:jev` makes one explicit live Jev request and is excluded from normal checks.
 
 Tests use injected provider fixtures shaped like the installed SDK contract. They require no network access or credentials.
@@ -60,6 +62,20 @@ The GitHub runner accepts only the Actions environment, a bounded event file, a 
 The source workflow handles issues in this repository. A workflow must be present on a repository's default branch to receive its issue events, so the independent test repository uses the template and checklist in `deploy/target-repo/`. Its automatic token belongs to that target repository. Review the Actions job summary for normalized probabilities, policy reasons, and actual label operations after any explicitly authorized live run.
 
 Manual dispatch from the GitHub Actions UI takes an existing issue number. Repeating it should yield no writes when labels already match. Never simulate the guarded runner with personal credentials in an ordinary local shell; use injected test dependencies instead.
+
+## Evaluation development
+
+The committed dataset and fixtures use schema `1.0` and must remain one-to-one in ordered IDs `JF-001` through `JF-030`. `npm run check` validates the dataset, fixtures, metric arithmetic, reports, live gate, policy behavior, and injected GitHub integration without credentials or network access.
+
+Generated reports belong under `evals/results/` and are ignored except for `.gitkeep`. Use an explicit unique `.json` or `.md` name. Fixture output must remain labeled synthetic and must report Jev latency as unavailable.
+
+The only live evaluation command is deliberately explicit:
+
+```powershell
+npm run eval -- --mode live --confirm-live --limit 1
+```
+
+It requires separate current-session authorization and a locally configured `TYPESAFE_API_KEY`. It invokes the existing analyzer sequentially, can consume paid capacity, and is excluded from tests, `npm run check`, and CI. Evaluation never requires `GITHUB_TOKEN`.
 
 ## Git workflow
 

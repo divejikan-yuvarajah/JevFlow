@@ -46,3 +46,13 @@ OpenAI Codex supports development only. TypeSafe AI Jev is JevFlow's runtime inf
 - Keep summaries short and sanitized. They report normalized decisions and actual API operations, while excluding raw issue bodies and provider errors.
 - Keep source and target repository workflows separate. Issue workflows must exist on the receiving repository's default branch, and its automatic token acts only in that repository.
 - Defer issue-facing bot comments. The Actions job summary is the Task 04 report surface and avoids comment ownership and duplication risk.
+
+## Evaluation
+
+- Keep the versioned dataset and normalized fixtures explicitly synthetic. Human annotations and fixture values are not provider observations.
+- Reuse `analyzeIssue`, the confidence policy, and the proposed-label mapper. Evaluation does not create a competing inference, policy, or GitHub side-effect path.
+- Use successful cases as classification denominators while retaining every failed case in run accounting. Zero denominators are `null`/`N/A`.
+- Report primary area accuracy separately from declared acceptable alternatives. Preserve selected probability, reported confidence, binary P(YES), and provider latency as distinct measures.
+- Default to deterministic fixture mode. Live mode requires `--confirm-live`, a configured provider key, sequential execution, and explicit authorization outside automated checks.
+- Exclude raw issue text, provider errors, SDK responses, and secrets from generated reports. Store only safe IDs, annotations, predictions, evidence, policy output, and aggregate metrics.
+- Treat proposed labels as simulated policy output. Task 05 never initializes Octokit or claims that GitHub labels were applied.

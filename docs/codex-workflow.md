@@ -25,6 +25,8 @@ At the end provide:
 - next task
 ```
 
+For Task 05 and later evaluation work, run fixture mode during normal verification. Never run `--mode live --confirm-live`, even when a key exists, unless the user explicitly authorizes paid live benchmarking in the current session.
+
 ## Recommended workflow
 
 1. Open the main `jevflow` repository in VS Code.

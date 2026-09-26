@@ -19,6 +19,8 @@
     "test:watch": "vitest",
     "triage": "tsx src/cli/triage-entry.ts",
     "triage:github": "tsx src/cli/github-action-entry.ts",
+    "eval": "tsx src/cli/evaluate-entry.ts",
+    "eval:fixtures": "tsx src/cli/evaluate-entry.ts --mode fixture",
     "smoke:jev": "tsx scripts/smoke-jev.ts",
     "check": "npm run format:check && npm run typecheck && npm run lint && npm test && npm run build"
   },
