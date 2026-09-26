@@ -7,6 +7,15 @@ import { CliError } from './triage.types.js';
 
 export const MAX_ISSUE_FILE_BYTES = 64 * 1_024;
 
+function assertAllowedFileSize(size: number): void {
+  if (!Number.isSafeInteger(size) || size < 0 || size > MAX_ISSUE_FILE_BYTES) {
+    throw new CliError(
+      'input',
+      `The issue file must not exceed ${String(MAX_ISSUE_FILE_BYTES)} bytes.`,
+    );
+  }
+}
+
 export interface IssueFileAccess {
   getSize(path: string): Promise<number>;
   readText(path: string): Promise<string>;
@@ -35,12 +44,7 @@ export async function loadIssueFile(
   } catch {
     throw new CliError('input', 'The issue file could not be read.');
   }
-  if (!Number.isSafeInteger(size) || size < 0 || size > MAX_ISSUE_FILE_BYTES) {
-    throw new CliError(
-      'input',
-      `The issue file must not exceed ${String(MAX_ISSUE_FILE_BYTES)} bytes.`,
-    );
-  }
+  assertAllowedFileSize(size);
 
   let contents: string;
   try {
@@ -48,6 +52,9 @@ export async function loadIssueFile(
   } catch {
     throw new CliError('input', 'The issue file could not be read.');
   }
+  // Recheck the bytes actually read so a file changed after stat cannot bypass
+  // the limit. This check still occurs before JSON parsing.
+  assertAllowedFileSize(Buffer.byteLength(contents, 'utf8'));
 
   let parsed: unknown;
   try {

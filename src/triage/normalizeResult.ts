@@ -19,6 +19,12 @@ export interface NormalizationMetadata {
   readonly truncatedFields: readonly TruncatedField[];
 }
 
+interface ValidatedNormalizationMetadata {
+  readonly latencyMs: number;
+  readonly inputTruncated: boolean;
+  readonly truncatedFields: readonly TruncatedField[];
+}
+
 function invalidResponse(field: string): never {
   throw new TriageError(
     'invalid_response',
@@ -28,6 +34,10 @@ function invalidResponse(field: string): never {
 
 function isRecord(value: unknown): value is Record<string, unknown> {
   return typeof value === 'object' && value !== null && !Array.isArray(value);
+}
+
+function isUnknownArray(value: unknown): value is unknown[] {
+  return Array.isArray(value);
 }
 
 function unitProbability(value: unknown, field: string): number {
@@ -47,6 +57,43 @@ function nonnegativeInteger(value: unknown, field: string): number {
     return invalidResponse(field);
   }
   return value;
+}
+
+function normalizeMetadata(metadata: unknown): ValidatedNormalizationMetadata {
+  if (!isRecord(metadata)) return invalidResponse('normalization metadata');
+  if (
+    typeof metadata.latencyMs !== 'number' ||
+    !Number.isFinite(metadata.latencyMs) ||
+    metadata.latencyMs < 0
+  ) {
+    return invalidResponse('latency metadata');
+  }
+  if (
+    typeof metadata.inputTruncated !== 'boolean' ||
+    !isUnknownArray(metadata.truncatedFields)
+  ) {
+    return invalidResponse('truncation metadata');
+  }
+
+  const truncatedFields: TruncatedField[] = [];
+  for (const field of metadata.truncatedFields) {
+    if (
+      (field !== 'title' && field !== 'body') ||
+      truncatedFields.includes(field)
+    ) {
+      return invalidResponse('truncated fields metadata');
+    }
+    truncatedFields.push(field);
+  }
+  if (metadata.inputTruncated !== truncatedFields.length > 0) {
+    return invalidResponse('truncation metadata');
+  }
+
+  return {
+    latencyMs: metadata.latencyMs,
+    inputTruncated: metadata.inputTruncated,
+    truncatedFields,
+  };
 }
 
 function normalizeChoice<T extends string>(
@@ -100,6 +147,7 @@ export function normalizeJevResult(
   response: unknown,
   metadata: NormalizationMetadata,
 ): TriageResult {
+  const validatedMetadata = normalizeMetadata(metadata);
   if (!isRecord(response)) return invalidResponse('response');
   if (typeof response.model !== 'string' || response.model.trim() === '') {
     return invalidResponse('model');
@@ -148,9 +196,9 @@ export function normalizeJevResult(
     },
     meta: {
       model: response.model,
-      latencyMs: metadata.latencyMs,
-      inputTruncated: metadata.inputTruncated,
-      truncatedFields: [...metadata.truncatedFields],
+      latencyMs: validatedMetadata.latencyMs,
+      inputTruncated: validatedMetadata.inputTruncated,
+      truncatedFields: [...validatedMetadata.truncatedFields],
       usage,
     },
   };

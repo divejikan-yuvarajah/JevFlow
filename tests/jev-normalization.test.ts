@@ -114,4 +114,17 @@ describe('normalizeJevResult', () => {
   ])('rejects missing or invalid model and usage metadata', (response) => {
     expect(() => normalizeJevResult(response, METADATA)).toThrow(TriageError);
   });
+
+  it.each([
+    { ...METADATA, latencyMs: Number.NaN },
+    { ...METADATA, latencyMs: Number.POSITIVE_INFINITY },
+    { ...METADATA, latencyMs: -1 },
+    { ...METADATA, inputTruncated: false },
+    { ...METADATA, truncatedFields: ['body', 'body'] },
+    { ...METADATA, truncatedFields: ['unsupported'] },
+  ])('rejects invalid normalization metadata', (metadata) => {
+    expect(() =>
+      normalizeJevResult(VALID_JEV_RESPONSE, metadata as typeof METADATA),
+    ).toThrow(TriageError);
+  });
 });
