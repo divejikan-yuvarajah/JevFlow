@@ -21,6 +21,7 @@ Common commands:
 - `npm start` runs the compiled bootstrap.
 - `npm run check` runs formatting, type checking, linting, tests, and build in sequence.
 - `npm run triage -- --help` shows the local file-driven CLI without requiring credentials.
+- `npm run triage:github` is the guarded GitHub Actions runner; do not invoke it as a local smoke test.
 - `npm run smoke:jev` makes one explicit live Jev request and is excluded from normal checks.
 
 Tests use injected provider fixtures shaped like the installed SDK contract. They require no network access or credentials.
@@ -51,6 +52,14 @@ npm run triage -- --file examples/sample-issue.json --json
 The CLI rejects unknown flags, missing or malformed files, files larger than 64 KiB, invalid issue input, invalid thresholds, and analyzer failures with a nonzero exit code. It never prints the issue body or credentials. Human output distinguishes selected probability, reported choice confidence, and binary P(YES); JSON output emits one machine-readable document.
 
 File-based analysis is an explicit live Jev operation and may consume paid capacity. It makes no GitHub API call and only proposes allowlisted labels locally. Use injected analyzers in tests; `npm test`, `npm run check`, `npm run dev`, `npm start`, and CLI help remain offline.
+
+## GitHub Actions development
+
+The GitHub runner accepts only the Actions environment, a bounded event file, a repository identity that matches the event, and one of the supported triggers. Manual dispatch validates a positive safe integer and fetches the current issue before inference. Tests call the parser, orchestrator, and API adapter with injected file readers, analyzers, and request functions; no token, API key, network connection, or remote issue is used by `npm run check`.
+
+The source workflow handles issues in this repository. A workflow must be present on a repository's default branch to receive its issue events, so the independent test repository uses the template and checklist in `deploy/target-repo/`. Its automatic token belongs to that target repository. Review the Actions job summary for normalized probabilities, policy reasons, and actual label operations after any explicitly authorized live run.
+
+Manual dispatch from the GitHub Actions UI takes an existing issue number. Repeating it should yield no writes when labels already match. Never simulate the guarded runner with personal credentials in an ordinary local shell; use injected test dependencies instead.
 
 ## Git workflow
 

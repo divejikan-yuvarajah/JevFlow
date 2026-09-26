@@ -58,6 +58,119 @@ export const APPROVED_LABELS = [
 
 export type ProposedLabel = (typeof APPROVED_LABELS)[number];
 
+export interface LabelDefinition {
+  readonly name: ProposedLabel;
+  readonly color: string;
+  readonly description: string;
+}
+
+export const LABEL_DEFINITIONS = {
+  'type:bug': {
+    name: 'type:bug',
+    color: 'D73A4A',
+    description: 'JevFlow issue type: bug',
+  },
+  'type:feature': {
+    name: 'type:feature',
+    color: 'A2EEEF',
+    description: 'JevFlow issue type: feature',
+  },
+  'type:documentation': {
+    name: 'type:documentation',
+    color: '0075CA',
+    description: 'JevFlow issue type: documentation',
+  },
+  'type:question': {
+    name: 'type:question',
+    color: 'D876E3',
+    description: 'JevFlow issue type: question',
+  },
+  'type:maintenance': {
+    name: 'type:maintenance',
+    color: 'C5DEF5',
+    description: 'JevFlow issue type: maintenance',
+  },
+  'area:frontend': {
+    name: 'area:frontend',
+    color: '5319E7',
+    description: 'JevFlow engineering area: frontend',
+  },
+  'area:backend': {
+    name: 'area:backend',
+    color: '5319E7',
+    description: 'JevFlow engineering area: backend',
+  },
+  'area:database': {
+    name: 'area:database',
+    color: '5319E7',
+    description: 'JevFlow engineering area: database',
+  },
+  'area:devops': {
+    name: 'area:devops',
+    color: '5319E7',
+    description: 'JevFlow engineering area: DevOps',
+  },
+  'area:ai': {
+    name: 'area:ai',
+    color: '5319E7',
+    description: 'JevFlow engineering area: AI',
+  },
+  'area:security': {
+    name: 'area:security',
+    color: '5319E7',
+    description: 'JevFlow engineering area: security',
+  },
+  'area:general': {
+    name: 'area:general',
+    color: '5319E7',
+    description: 'JevFlow engineering area: general',
+  },
+  'priority:critical': {
+    name: 'priority:critical',
+    color: 'B60205',
+    description: 'JevFlow suggested priority: critical',
+  },
+  'priority:high': {
+    name: 'priority:high',
+    color: 'D93F0B',
+    description: 'JevFlow suggested priority: high',
+  },
+  'priority:medium': {
+    name: 'priority:medium',
+    color: 'FBCA04',
+    description: 'JevFlow suggested priority: medium',
+  },
+  'priority:low': {
+    name: 'priority:low',
+    color: '0E8A16',
+    description: 'JevFlow suggested priority: low',
+  },
+  'jev:auto-triaged': {
+    name: 'jev:auto-triaged',
+    color: '0E8A16',
+    description: 'JevFlow automatic triage completed',
+  },
+  'jev:review-suggested': {
+    name: 'jev:review-suggested',
+    color: 'FBCA04',
+    description: 'JevFlow recommends maintainer review',
+  },
+  'jev:human-review': {
+    name: 'jev:human-review',
+    color: 'D93F0B',
+    description: 'JevFlow requires human review',
+  },
+  'security-review': {
+    name: 'security-review',
+    color: 'B60205',
+    description: 'Human security review requested; vulnerability unconfirmed',
+  },
+} as const satisfies Record<ProposedLabel, LabelDefinition>;
+
+export function isApprovedLabel(value: string): value is ProposedLabel {
+  return APPROVED_LABELS.some((approved) => approved === value);
+}
+
 function isUnitValue(value: unknown): value is number {
   return (
     typeof value === 'number' &&

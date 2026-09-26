@@ -19,4 +19,4 @@ Expected prompt filenames:
 - `task-06-dashboard.md`
 - `task-07-release.md`
 
-The supplied Task 01 and Task 02 prompts are also available under their expected filenames above. Original Codex Edition source files for Tasks 01–07 remain preserved in this directory. Setup and Tasks 01–03 are complete; Task 04 is the next phase. A prompt's local source filename may differ from the shorter expected filename, so reference the actual path when starting a phase.
+The supplied Tasks 01–07 are available under the expected filenames above. Their original Codex Edition source files remain preserved in this directory. Setup and Tasks 01–03 are complete; Task 04 is the next phase.
