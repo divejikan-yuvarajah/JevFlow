@@ -17,5 +17,6 @@ export function runBootstrap(
   write('Confidence policy and local label proposals: ready');
   write('GitHub automation: ready through the guarded Actions runner');
   write('Offline synthetic evaluation harness: ready');
-  write('Next phase: Task 06 — web playground and decision dashboard');
+  write('Web playground: ready through the independent web package');
+  write('Next phase: Task 07 — documentation, final QA, and release');
 }

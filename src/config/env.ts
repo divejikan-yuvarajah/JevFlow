@@ -1,5 +1,7 @@
-const DEFAULT_AUTO_THRESHOLD = 0.9;
-const DEFAULT_REVIEW_THRESHOLD = 0.75;
+import {
+  DEFAULT_AUTO_THRESHOLD,
+  DEFAULT_REVIEW_THRESHOLD,
+} from '../policy/thresholds.js';
 
 export type Environment = Readonly<Record<string, string | undefined>>;
 

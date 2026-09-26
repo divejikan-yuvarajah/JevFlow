@@ -28,6 +28,36 @@ Common commands:
 
 Tests use injected provider fixtures shaped like the installed SDK contract. They require no network access or credentials.
 
+## Web dashboard development
+
+The root core and `web/` app keep independent lockfiles. Install both in a clean checkout because the server adapter consumes the root package's compiled ESM output and provider dependencies. Web development, lint, type checking, tests, and build run the root build automatically before their own command:
+
+```powershell
+npm ci
+npm --prefix web ci
+npm --prefix web run dev
+```
+
+The local URL is `http://localhost:3000`. The default experience is the offline synthetic preview. It needs no key and sends no analysis request. Run all web validation independently with:
+
+```powershell
+npm --prefix web run typecheck
+npm --prefix web run lint
+npm --prefix web run test
+npm --prefix web run build
+npm --prefix web run check
+```
+
+To make a deliberate live request, create ignored `web/.env.local` from `web/.env.example`, set `JEVFLOW_LIVE_DEMO_ENABLED=true`, and add `TYPESAFE_API_KEY` without a `NEXT_PUBLIC_` prefix. Restart the development server. Each accepted submit can consume paid provider capacity. The route rejects production requests even if those values are present. Build, test, preview, page load, and evaluation display never initiate inference.
+
+The evaluation page reads the newest valid JSON summary under `evals/results/`. Generate an offline artifact from the repository root when needed:
+
+```powershell
+npm run eval -- --mode fixture --format json --output evals/results/dashboard-evaluation.json
+```
+
+Generated reports remain ignored. Fixture metrics describe harness behavior and must not be presented as live Jev performance.
+
 ## Environment and secrets
 
 Copy `.env.example` to `.env` only when local overrides are useful. Never commit `.env`, API keys, GitHub tokens, or other credentials. The bootstrap and offline checks work without credentials and log no secret values. Thresholds must be finite numbers in the inclusive range 0 through 1, and the review threshold cannot exceed the automatic threshold.

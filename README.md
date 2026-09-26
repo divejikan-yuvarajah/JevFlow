@@ -6,7 +6,7 @@ JevFlow is being built to help maintainers classify incoming GitHub issues, eval
 
 ## Current status
 
-Tasks 01–05 provide the runnable foundation, Jev triage engine, deterministic confidence policy, secure GitHub automation, and reproducible evaluation harness:
+Tasks 01–06 provide the runnable foundation, Jev triage engine, deterministic confidence policy, secure GitHub automation, reproducible evaluation harness, and local decision dashboard:
 
 - Node.js 20+ with strict TypeScript ESM
 - canonical issue classification vocabulary and input type
@@ -26,8 +26,11 @@ Tasks 01–05 provide the runnable foundation, Jev triage engine, deterministic 
 - a versioned 30-case synthetic evaluation dataset and annotation rubric
 - deterministic offline metrics with JSON and Markdown reports
 - an explicitly gated, sequential live Jev benchmark path
+- a responsive Next.js playground with three clearly identified synthetic previews
+- a guarded, development-only server route that reuses the existing analyzer, policy, and label mapper
+- a read-only evaluation view for valid local Task 05 reports
 
-The automation can mutate labels only when the guarded Actions runner receives a supported, validated event and repository-scoped credentials. No live workflow or live Jev benchmark has been run as part of the offline implementation. The optional dashboard remains planned for a later phase. The regular bootstrap, validation commands, fixture evaluation, and CLI help do not make network requests.
+The automation can mutate labels only when the guarded Actions runner receives a supported, validated event and repository-scoped credentials. The dashboard never mutates GitHub. No live workflow, live Jev benchmark, or dashboard Jev request has been run as part of the offline implementation. The regular bootstrap, validation commands, fixture evaluation, dashboard preview, and CLI help do not make network requests.
 
 ## Requirements
 
@@ -111,6 +114,18 @@ npm run eval -- --mode live --confirm-live --limit 1
 
 See [Evaluation and benchmarking](docs/evaluation.md), the [evaluation assets](evals/README.md), and the [annotation guide](evals/annotation-guide.md).
 
+## Web playground
+
+The independent `web/` package provides a dark, responsive issue-analysis workbench and a compact evaluation view. Its three synthetic scenarios use authored example values, then run the real deterministic policy and label mapper locally. They do not call Jev and do not represent model performance.
+
+```bash
+npm ci
+npm --prefix web ci
+npm --prefix web run dev
+```
+
+Open `http://localhost:3000`. Live Jev mode remains disabled unless a local developer explicitly sets both the server-only opt-in and credential in ignored `web/.env.local`. Production live access is rejected. See the [web application guide](web/README.md) for the exact configuration and independent checks.
+
 ## Repository roles
 
 This `jevflow` repository contains the application source and documentation. The separate `jevflow-test-repo` is disposable and reserved for explicitly authorized integration and evaluation runs; it must not be merged into this repository.
@@ -122,3 +137,4 @@ This `jevflow` repository contains the application source and documentation. The
 - [Development guide](docs/development.md)
 - [Evaluation and benchmarking](docs/evaluation.md)
 - [Roadmap](docs/roadmap.md)
+- [Web playground](web/README.md)

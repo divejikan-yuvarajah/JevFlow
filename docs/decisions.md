@@ -11,7 +11,7 @@
 
 ## Deferred capabilities
 
-- Consider the optional Next.js presentation layer in Task 06.
+- Public deployment of paid inference requires a separately reviewed authentication, rate limiting, and abuse-control design.
 
 OpenAI Codex supports development only. TypeSafe AI Jev is JevFlow's runtime inference provider.
 
@@ -56,3 +56,13 @@ OpenAI Codex supports development only. TypeSafe AI Jev is JevFlow's runtime inf
 - Default to deterministic fixture mode. Live mode requires `--confirm-live`, a configured provider key, sequential execution, and explicit authorization outside automated checks.
 - Exclude raw issue text, provider errors, SDK responses, and secrets from generated reports. Store only safe IDs, annotations, predictions, evidence, policy output, and aggregate metrics.
 - Treat proposed labels as simulated policy output. Task 05 never initializes Octokit or claims that GitHub labels were applied.
+
+## Web playground
+
+- Keep `web/` as an independent Next.js App Router package with its own lockfile. Build the root core and import its compiled ESM contract through narrow adapters because Turbopack does not resolve the root NodeNext source's explicit `.js` specifiers to `.ts`. This avoids unsupported bundler aliases, a monorepo restructure, and copied classifiers or thresholds.
+- Install root dependencies in the web CI job because the shared root source owns the official Jev SDK adapter. Verify both packages independently.
+- Expose one runtime-validated `PublicTriageView`. Return only typed decisions, distinct selected probability and reported confidence, binary P(YES), policy output, allowlisted proposed labels, and genuine provider metadata.
+- Keep live dashboard inference off by default and local-development-only. A configured API key alone never enables the route; the explicit server flag is also required. Client bundles receive only a boolean availability state and safe explanation.
+- Use three static synthetic inputs and authored normalized values for preview, but pass those values through the real confidence policy and label mapper. Require exact unmodified sample matching so custom text is never presented as analyzed fixture output.
+- Keep Task 05 reports separate from preview data. The evaluation page validates and displays a fixed-directory summary with provenance and denominators, while omitting case text, paths, and fixture timing as provider latency.
+- Keep the browser read-only with respect to GitHub. Proposed labels are presentation output and no dashboard module imports the GitHub client or issue actions.
