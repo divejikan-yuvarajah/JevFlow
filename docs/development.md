@@ -20,12 +20,37 @@ Common commands:
 - `npm run build` compiles `src/` into `dist/`.
 - `npm start` runs the compiled bootstrap.
 - `npm run check` runs formatting, type checking, linting, tests, and build in sequence.
+- `npm run triage -- --help` shows the local file-driven CLI without requiring credentials.
+- `npm run smoke:jev` makes one explicit live Jev request and is excluded from normal checks.
 
-Tests require no network access or credentials.
+Tests use injected provider fixtures shaped like the installed SDK contract. They require no network access or credentials.
 
 ## Environment and secrets
 
-Copy `.env.example` to `.env` only when local overrides are useful. Never commit `.env`, API keys, GitHub tokens, or other credentials. Task 01 works without credentials and logs no secret values. Thresholds must be finite numbers in the inclusive range 0 through 1, and the review threshold cannot exceed the automatic threshold.
+Copy `.env.example` to `.env` only when local overrides are useful. Never commit `.env`, API keys, GitHub tokens, or other credentials. The bootstrap and offline checks work without credentials and log no secret values. Thresholds must be finite numbers in the inclusive range 0 through 1, and the review threshold cannot exceed the automatic threshold.
+
+The installed official TypeSafe AI SDK requires Node.js 20 or newer. A real call requires `TYPESAFE_API_KEY`; keep it only in the ignored `.env` file or a secure environment variable. The SDK adapter uses logging level `off` so issue bodies and request data are not emitted.
+
+The smoke test can consume paid API capacity and must be run only when a live request is explicitly intended:
+
+```powershell
+npm run smoke:jev
+```
+
+It uses a harmless invented issue. Never paste an API key into source code, documentation, terminal history, or chat. A missing key produces a sanitized nonzero failure.
+
+## Local issue triage
+
+Use the synthetic example or another JSON object matching `IssueInput`:
+
+```powershell
+npm run triage -- --file examples/sample-issue.json
+npm run triage -- --file examples/sample-issue.json --json
+```
+
+The CLI rejects unknown flags, missing or malformed files, files larger than 64 KiB, invalid issue input, invalid thresholds, and analyzer failures with a nonzero exit code. It never prints the issue body or credentials. Human output distinguishes selected probability, reported choice confidence, and binary P(YES); JSON output emits one machine-readable document.
+
+File-based analysis is an explicit live Jev operation and may consume paid capacity. It makes no GitHub API call and only proposes allowlisted labels locally. Use injected analyzers in tests; `npm test`, `npm run check`, `npm run dev`, `npm start`, and CLI help remain offline.
 
 ## Git workflow
 

@@ -12,14 +12,17 @@
     "build": "tsc -p tsconfig.build.json",
     "start": "node dist/cli/index.js",
     "typecheck": "tsc -p tsconfig.json --noEmit",
-    "lint": "eslint src tests eslint.config.js",
+    "lint": "eslint src tests scripts eslint.config.js",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
     "test": "vitest run",
     "test:watch": "vitest",
+    "triage": "tsx src/cli/triage-entry.ts",
+    "smoke:jev": "tsx scripts/smoke-jev.ts",
     "check": "npm run format:check && npm run typecheck && npm run lint && npm test && npm run build"
   },
   "dependencies": {
+    "@typesafe-ai/sdk": "^0.6.0",
     "dotenv": "^18.0.4"
   },
   "devDependencies": {
