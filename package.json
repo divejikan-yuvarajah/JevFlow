@@ -18,10 +18,12 @@
     "test": "vitest run",
     "test:watch": "vitest",
     "triage": "tsx src/cli/triage-entry.ts",
+    "triage:github": "tsx src/cli/github-action-entry.ts",
     "smoke:jev": "tsx scripts/smoke-jev.ts",
     "check": "npm run format:check && npm run typecheck && npm run lint && npm test && npm run build"
   },
   "dependencies": {
+    "@octokit/rest": "^22.0.1",
     "@typesafe-ai/sdk": "^0.6.0",
     "dotenv": "^18.0.4"
   },
