@@ -13,7 +13,8 @@ describe('bootstrap CLI', () => {
     expect(output).toContain('Jev integration: available through analyzeIssue');
     expect(output).toContain('Confidence policy and local label proposals');
     expect(output).toContain('GitHub automation: ready');
-    expect(output).toContain('Task 05 — testing, evaluation');
+    expect(output).toContain('Offline synthetic evaluation harness: ready');
+    expect(output).toContain('Task 06 — web playground');
     expect(output).not.toMatch(
       /classified|label applied|API request completed/i,
     );

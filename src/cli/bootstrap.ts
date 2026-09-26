@@ -16,5 +16,6 @@ export function runBootstrap(
   write('Jev integration: available through analyzeIssue (no request made)');
   write('Confidence policy and local label proposals: ready');
   write('GitHub automation: ready through the guarded Actions runner');
-  write('Next phase: Task 05 — testing, evaluation, and benchmarking');
+  write('Offline synthetic evaluation harness: ready');
+  write('Next phase: Task 06 — web playground and decision dashboard');
 }
