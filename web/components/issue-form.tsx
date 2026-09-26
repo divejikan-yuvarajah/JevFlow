@@ -46,6 +46,7 @@ export function IssueForm({ availability }: IssueFormProps) {
     title.trim().length > 0 && titleLength <= MAX_TITLE_CODE_POINTS;
   const validBody = bodyLength <= MAX_BODY_CODE_POINTS;
   const loading = requestState === 'loading';
+  const selectedScenario = findMatchingPreview(title, body);
 
   function selectScenario(scenario: PreviewScenario): void {
     setTitle(scenario.title);
@@ -212,6 +213,10 @@ export function IssueForm({ availability }: IssueFormProps) {
               <button
                 type="button"
                 key={scenario.id}
+                className={
+                  selectedScenario?.id === scenario.id ? 'selected' : ''
+                }
+                aria-pressed={selectedScenario?.id === scenario.id}
                 onClick={() => selectScenario(scenario)}
               >
                 <span className="sample-number">0{index + 1}</span>
@@ -283,7 +288,12 @@ export function IssueForm({ availability }: IssueFormProps) {
             type="submit"
             disabled={loading || !validTitle || !validBody}
           >
-            <span aria-hidden="true">{loading ? '◌' : '✦'}</span>
+            <span
+              className={loading ? 'button-spinner' : 'button-spark'}
+              aria-hidden="true"
+            >
+              {loading ? '' : '✦'}
+            </span>
             {loading
               ? 'Analyzing once…'
               : mode === 'preview'

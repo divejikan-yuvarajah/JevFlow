@@ -27,7 +27,9 @@ export function AppHeader({ availability }: AppHeaderProps) {
         </nav>
         <div className={`live-status status-${availability.status}`}>
           <span aria-hidden="true" />
-          {availability.liveEnabled ? 'Live Jev available' : 'Preview fixture'}
+          {availability.liveEnabled
+            ? 'Live Jev available'
+            : 'Offline preview ready'}
         </div>
       </div>
     </header>
