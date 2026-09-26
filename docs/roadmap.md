@@ -2,7 +2,7 @@
 
 ## Project goal
 
-JevFlow will provide confidence-aware GitHub issue triage powered by TypeSafe AI Jev. OpenAI Codex is the development assistant; Jev is the runtime inference provider. JevFlow will combine Jev's typed decisions with deterministic confidence policy and, later, GitHub automation.
+JevFlow provides a locally verified confidence-aware GitHub issue triage MVP powered by TypeSafe AI Jev. OpenAI Codex is the development assistant; Jev is the runtime inference provider. JevFlow combines Jev's typed decisions with deterministic confidence policy and guarded GitHub automation.
 
 ## High-level architecture
 
@@ -30,16 +30,16 @@ Codex assists with development only. Jev remains the application's inference pro
 
 ## Development phases
 
-| Phase                                                 | Scope                                                                                                                           | Target branch             | Status      |
-| ----------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------- | ------------------------- | ----------- |
-| Setup Phase                                           | VS Code + Codex workflow, repository instructions, prompts, roadmap, Git conventions, workspace verification                    | `main`                    | Complete    |
-| Task 01 — Project Foundation & Configuration          | Node.js 20+, TypeScript ESM, npm, environment configuration, domain types, quality tooling, tests, CI, bootstrap CLI, base docs | `feat/project-foundation` | Complete    |
-| Task 02 — Jev Integration & Intelligent Triage Engine | Jev SDK, issue state, typed questions, analysis, validation, normalized output, optional smoke test                             | `feat/jev-engine`         | Complete    |
-| Task 03 — Confidence Policy, Labels & CLI             | Confidence thresholds, decision modes, escalation, label mapping, local CLI, fail-safe behavior                                 | `feat/confidence-policy`  | Complete    |
-| Task 04 — GitHub Integration & Automation             | Event parsing, GitHub API, labels, automation, Actions workflow, summaries, test-repository deployment template                 | `feat/github-automation`  | Complete    |
-| Task 05 — Testing, Evaluation & Benchmarking          | Evaluation data, fixtures, accuracy, latency, confidence, automation coverage, review escalation metrics                        | `test/evaluation-suite`   | Complete    |
-| Task 06 — Web Playground & Decision Dashboard         | Optional Next.js UI, issue input, server-side Jev path, decision and confidence/policy views, responsive layout                 | `feat/demo-dashboard`     | Complete    |
-| Task 07 — Documentation, Final QA & Release           | README, architecture docs, screenshots, demos, release checklist, security review, release and demo preparation                 | `docs/release`            | Not Started |
+| Phase                                                 | Scope                                                                                                                           | Target branch             | Status           |
+| ----------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------- | ------------------------- | ---------------- |
+| Setup Phase                                           | VS Code + Codex workflow, repository instructions, prompts, roadmap, Git conventions, workspace verification                    | `main`                    | Complete         |
+| Task 01 — Project Foundation & Configuration          | Node.js 20+, TypeScript ESM, npm, environment configuration, domain types, quality tooling, tests, CI, bootstrap CLI, base docs | `feat/project-foundation` | Complete         |
+| Task 02 — Jev Integration & Intelligent Triage Engine | Jev SDK, issue state, typed questions, analysis, validation, normalized output, optional smoke test                             | `feat/jev-engine`         | Complete         |
+| Task 03 — Confidence Policy, Labels & CLI             | Confidence thresholds, decision modes, escalation, label mapping, local CLI, fail-safe behavior                                 | `feat/confidence-policy`  | Complete         |
+| Task 04 — GitHub Integration & Automation             | Event parsing, GitHub API, labels, automation, Actions workflow, summaries, test-repository deployment template                 | `feat/github-automation`  | Complete         |
+| Task 05 — Testing, Evaluation & Benchmarking          | Evaluation data, fixtures, accuracy, latency, confidence, automation coverage, review escalation metrics                        | `test/evaluation-suite`   | Complete         |
+| Task 06 — Web Playground & Decision Dashboard         | Optional Next.js UI, issue input, server-side Jev path, decision and confidence/policy views, responsive layout                 | `feat/demo-dashboard`     | Complete         |
+| Task 07 — Documentation, Final QA & Release           | README, architecture docs, screenshot plan, demo kit, release checklist, security review, release and demo preparation          | `docs/release`            | Complete locally |
 
 ## Current status
 
@@ -50,9 +50,9 @@ Codex assists with development only. Jev remains the application's inference pro
 - Task 04: Complete (offline implementation and validation; live deployment not run)
 - Task 05: Complete (offline synthetic evaluation; live Jev benchmark not run)
 - Task 06: Complete (offline playground and guarded local live path; no live request run)
-- Task 07: Not Started
+- Task 07: Complete locally (offline QA and release preparation; publication pending)
 
-The foundation, Jev triage engine, confidence policy, label proposal mapper, local CLI, guarded GitHub automation, 30-case evaluation harness, and responsive local dashboard have been implemented and verified offline. The dashboard provides three explicit synthetic previews, a local-development-only Jev route, and a read-only view of valid Task 05 reports. Evaluation and preview data clearly identify authored fixtures and do not claim live Jev performance. Live Jev inference, live benchmarking, workflow deployment, and GitHub issue mutation were not run.
+The foundation, Jev triage engine, confidence policy, label proposal mapper, local CLI, guarded GitHub automation, 30-case evaluation harness, responsive local dashboard, and Task 07 release documentation have been implemented and verified offline. The dashboard provides three explicit synthetic previews, a local-development-only Jev route, and a read-only view of valid Task 05 reports. Evaluation and preview data clearly identify authored fixtures and do not claim live Jev performance. Live Jev inference, live benchmarking, workflow deployment, GitHub issue mutation, public hosting, screenshots, tags, and release publication were not run. License selection remains pending.
 
 ## Repository separation
 

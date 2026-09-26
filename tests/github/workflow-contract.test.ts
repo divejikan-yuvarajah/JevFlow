@@ -30,8 +30,9 @@ function expectCommonWorkflowContract(workflow: string): void {
   expect(workflow).toContain('timeout-minutes: 10');
   expect(workflow).toContain('${{ github.repository_id }}');
   expect(workflow).toContain(
-    '${{ github.event.issue.number || fromJSON(inputs.issue_number) }}',
+    '${{ github.event.issue.number || inputs.issue_number }}',
   );
+  expect(workflow).not.toContain('fromJSON(inputs.issue_number)');
   expect(workflow).toContain("node-version: '20'");
   expect(workflow).toContain('package-manager-cache: false');
   expect(workflow).toContain('run: npm ci');
@@ -86,8 +87,8 @@ describe('GitHub Actions workflow contracts', () => {
     expect(guide).toContain('TYPESAFE_API_KEY');
     expect(guide).toContain('private JevFlow repository');
     expect(guide).toContain('narrow read-only source credential');
-    expect(guide).toContain('npm run seed:labels');
+    expect(guide).toContain('creates missing allowlisted labels');
     expect(guide).toContain('workflow_dispatch');
-    expect(guide).toContain('multiple paid Jev requests');
+    expect(guide).toContain('one benign synthetic issue');
   });
 });

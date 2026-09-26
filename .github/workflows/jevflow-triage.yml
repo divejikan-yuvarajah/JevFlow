@@ -15,7 +15,8 @@ permissions:
   issues: write
 
 concurrency:
-  group: jevflow-${{ github.repository_id }}-${{ github.event.issue.number || fromJSON(inputs.issue_number) }}
+  # Keep dispatch input as data here; the runner validates it as a positive safe integer.
+  group: jevflow-${{ github.repository_id }}-${{ github.event.issue.number || inputs.issue_number }}
   cancel-in-progress: false
 
 jobs:

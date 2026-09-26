@@ -79,3 +79,14 @@ Live mode requires `TYPESAFE_API_KEY`. The CLI does not load local `.env` config
 ## Interpretation limits
 
 Thirty synthetic examples cannot establish production accuracy, safety, latency, cost, or calibration. Authored fixture metrics primarily prove evaluator arithmetic, policy integration, report behavior, and regression coverage. Model behavior can change between authorized live runs. A larger independently reviewed evaluation is required before making performance claims.
+
+## Task 07 reproducibility snapshot
+
+The final offline QA run used dataset `2026.09.1` and wrote ignored artifacts to:
+
+- `evals/results/task07-offline-20260927.json`
+- `evals/results/task07-offline-20260927.md`
+
+All 30 fixture cases succeeded with zero failures or skips. The authored normalized fixtures produced 29/30 strict issue-type matches, 26/30 strict area matches, 29/30 acceptable-area matches, 27/30 priority matches, and 23/30 exact all-three matches. The policy routed 12/30 to `auto`, captured 13/13 annotated review-required cases outside `auto`, and recorded zero false-auto cases in that annotated cohort.
+
+These values are a reproducibility snapshot of committed synthetic inputs and authored decisions. They are not observed Jev accuracy, provider latency, or production performance. The JSON report records provider `synthetic-fixture`, mode `offline-fixture`, and no provider-latency distribution. Generated artifacts remain ignored so a fresh clone's dashboard correctly shows an empty state until the user creates a local report.
