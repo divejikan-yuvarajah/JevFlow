@@ -82,6 +82,21 @@ describe('loadIssueFile', () => {
     expect(readText).not.toHaveBeenCalled();
   });
 
+  it('rejects input that grows beyond the limit after the size check', async () => {
+    const contents = JSON.stringify({
+      title: 'A valid title',
+      body: 'x'.repeat(MAX_ISSUE_FILE_BYTES),
+    });
+    const access: IssueFileAccess = {
+      getSize: vi.fn().mockResolvedValue(100),
+      readText: vi.fn().mockResolvedValue(contents),
+    };
+
+    await expect(loadIssueFile('growing.json', access)).rejects.toMatchObject({
+      kind: 'input',
+    });
+  });
+
   it.each(['not JSON', '[]', '{"body":"missing title"}'])(
     'rejects malformed JSON or the wrong shape',
     async (contents) => {
