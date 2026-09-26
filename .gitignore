@@ -12,5 +12,6 @@ coverage/
 Thumbs.db
 
 .vscode/*.log
+.vscode/.ropeproject
 
 .idea/
