@@ -1,5 +1,26 @@
 # Development Guide
 
+## Setup
+
+Clone or open the main JevFlow source repository, then confirm the runtime:
+
+```bash
+node --version
+npm --version
+npm ci
+```
+
+Node.js 20.19 or newer is required. With `nvm`, run `nvm use` from the repository root. On Windows without `nvm-windows`, install a supported Node release directly and reopen the terminal. Root and `web/` are separate npm packages; install both when working on the dashboard.
+
+Local configuration is optional for offline work:
+
+```powershell
+Copy-Item .env.example .env
+Copy-Item web/.env.example web/.env.local
+```
+
+On macOS or Linux, use `cp` instead. Both destination files are ignored. Leave secrets blank unless a specific live command has been approved.
+
 ## Local workflow
 
 Use Node.js 20.19 or newer. Install exactly from the committed lockfile when reproducing CI:
@@ -112,3 +133,25 @@ It requires separate current-session authorization and a locally configured `TYP
 Start each development phase from verified `main` on the branch named in the roadmap. Inspect existing work before editing, run `npm run check`, review the diff and staged files, then commit and merge normally after verification. Never discard user work, rewrite history, force push, or mix later phases into the active task.
 
 See [the Codex workflow](codex-workflow.md) for the repository's phase execution process.
+
+## Troubleshooting
+
+- **`npm ci` reports a lock mismatch:** use the lockfile from the current branch. Do not regenerate it unless a dependency change is intentional and reviewed.
+- **Web imports under `dist/` are missing:** run `npm run build` at the root. Every web check also runs this through `prepare:core`.
+- **The evaluation page has no report:** generate an ignored JSON artifact under `evals/results/` with the fixture command above, then reload the page.
+- **Live dashboard mode stays disabled:** it works only under `next dev`, requires both values in `web/.env.local`, and needs a server restart. It is intentionally disabled in production builds.
+- **A live CLI reports a missing key:** confirm `TYPESAFE_API_KEY` is present in the intended process environment or ignored `.env`. Do not print the value while diagnosing it.
+- **GitHub manual dispatch fails validation:** enter an existing positive integer issue number. The application rejects pull requests and repository identity mismatches.
+- **Node type or build errors appear only in one package:** verify both `npm ci` commands completed and run root checks before the independent web checks.
+
+## Safe branch workflow
+
+```bash
+git switch main
+git status --short
+git switch -c <focused-branch>
+npm run check
+npm --prefix web run check
+```
+
+Review `git diff --check`, staged files, and secret-like text before committing. Never run a live analyzer merely because a local key exists, and never push, tag, deploy, or publish without the project owner's explicit authorization.

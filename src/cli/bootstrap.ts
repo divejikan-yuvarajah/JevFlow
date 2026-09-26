@@ -8,7 +8,7 @@ export function runBootstrap(
 ): void {
   const config = loadConfig(env);
 
-  write('JevFlow — foundation ready');
+  write('JevFlow — offline MVP ready for review');
   write('Mode: local bootstrap only (no Jev/GitHub requests)');
   write('Node runtime: 20+');
   write(`Automatic threshold: ${config.autoThreshold.toFixed(2)}`);
@@ -18,5 +18,6 @@ export function runBootstrap(
   write('GitHub automation: ready through the guarded Actions runner');
   write('Offline synthetic evaluation harness: ready');
   write('Web playground: ready through the independent web package');
-  write('Next phase: Task 07 — documentation, final QA, and release');
+  write('Roadmap: Tasks 01–07 implemented locally');
+  write('Live Jev, GitHub deployment, and public release: not verified');
 }
