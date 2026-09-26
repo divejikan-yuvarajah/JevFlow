@@ -1,10 +1,10 @@
 # JevFlow — Task 02: Jev Integration & Intelligent Triage Engine (Codex Edition)
 
-> **VS Code + OpenAI Codex implementation prompt — EXECUTE TASK 02 ONLY.**  
-> Project: **JevFlow — Confidence-Aware GitHub Issue Triage powered by Jev**  
-> Roadmap: **Phase 2 of 7**, after Setup and Task 01  
-> Target branch: `feat/jev-engine`  
-> Runtime: **Node.js 20+, TypeScript ESM / NodeNext, npm, Vitest**  
+> **VS Code + OpenAI Codex implementation prompt — EXECUTE TASK 02 ONLY.**
+> Project: **JevFlow — Confidence-Aware GitHub Issue Triage powered by Jev**
+> Roadmap: **Phase 2 of 7**, after Setup and Task 01
+> Target branch: `feat/jev-engine`
+> Runtime: **Node.js 20+, TypeScript ESM / NodeNext, npm, Vitest**
 > Coding assistant: **OpenAI Codex**. Application inference provider: **TypeSafe AI Jev**.
 
 ---

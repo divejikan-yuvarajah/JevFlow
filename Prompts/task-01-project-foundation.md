@@ -1,11 +1,11 @@
 # JevFlow — Task 01: Project Foundation & Configuration (Codex Edition)
 
-> **OPENAI CODEX / VS CODE IMPLEMENTATION PROMPT — EXECUTE TASK 01 ONLY**  
-> Project: **JevFlow — Confidence-Aware GitHub Issue Triage powered by Jev**  
-> Roadmap: **Task 01 of 07 (after the separate Setup Phase)**  
-> Repository: the **main `jevflow` source repository**, never `jevflow-test-repo`  
-> Working branch: `feat/project-foundation`  
-> Target runtime: **Node.js 20+, npm, strict TypeScript ESM**  
+> **OPENAI CODEX / VS CODE IMPLEMENTATION PROMPT — EXECUTE TASK 01 ONLY**
+> Project: **JevFlow — Confidence-Aware GitHub Issue Triage powered by Jev**
+> Roadmap: **Task 01 of 07 (after the separate Setup Phase)**
+> Repository: the **main `jevflow` source repository**, never `jevflow-test-repo`
+> Working branch: `feat/project-foundation`
+> Target runtime: **Node.js 20+, npm, strict TypeScript ESM**
 > Coding assistant: **OpenAI Codex**. Application inference provider, beginning Task 02: **TypeSafe AI Jev**.
 
 ---
