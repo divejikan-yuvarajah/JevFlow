@@ -13,5 +13,6 @@ export function runBootstrap(
   write('Node runtime: 20+');
   write(`Automatic threshold: ${config.autoThreshold.toFixed(2)}`);
   write(`Review threshold: ${config.reviewThreshold.toFixed(2)}`);
-  write('Next phase: Task 02 — real Jev SDK integration');
+  write('Jev integration: available through analyzeIssue (no request made)');
+  write('Next phase: Task 03 — confidence policy, labels, and CLI');
 }

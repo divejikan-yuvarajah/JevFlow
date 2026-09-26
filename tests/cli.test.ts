@@ -10,7 +10,8 @@ describe('bootstrap CLI', () => {
     const output = write.mock.calls.flat().join('\n');
     expect(output).toContain('JevFlow — foundation ready');
     expect(output).toContain('no Jev/GitHub requests');
-    expect(output).toContain('Task 02 — real Jev SDK integration');
+    expect(output).toContain('Jev integration: available through analyzeIssue');
+    expect(output).toContain('Task 03 — confidence policy');
     expect(output).not.toMatch(
       /classified|label applied|API request completed/i,
     );
