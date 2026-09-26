@@ -77,6 +77,23 @@ validated 30-case synthetic dataset
 
 Evaluation is sequential and dependency-injected. A case failure is recorded and later cases continue. Fixture mode never constructs the Jev provider and excludes synthetic latency metadata from provider latency. Live mode calls the existing analyzer and never falls back to fixtures. Neither mode constructs Octokit or applies GitHub mutations; proposed labels remain policy output.
 
+## Task 06 presentation flow
+
+```text
+Next.js client component
+  → offline sample match and synthetic fixture projection (no request)
+  OR deliberate same-origin POST /api/analyze
+  → development-only server opt-in and bounded request validation
+  → existing analyzeIssue once
+  → existing confidence policy and proposed-label mapper
+  → allowlisted PublicTriageView
+  → decision, probability, policy, and proposed-label presentation
+```
+
+The `web/` package consumes the root package's compiled `dist/` contract through narrow adapters; its scripts build that core first from the authoritative `src/` tree. This avoids copying logic and preserves the root NodeNext ESM resolution in Next's bundler. `present-result.ts` is pure and calls the existing policy and label mapper. `core-adapter.ts` is marked server-only and is the only dashboard module that imports `analyzeIssue`; client components cannot import provider or credential handling. The API response omits issue text, provider errors, credentials, raw SDK responses, and internal paths.
+
+Live dashboard inference is disabled by default, restricted to local development, and requires both `JEVFLOW_LIVE_DEMO_ENABLED=true` and a server-side `TYPESAFE_API_KEY`. Preview submission never calls the route. The dashboard does not import Octokit, update issues, trigger workflows, or apply labels. Its evaluation page scans only the fixed local `evals/results/` directory, validates a narrow Task 05 summary, and never renders report cases or paths.
+
 ## Module boundaries
 
 - `src/domain/` owns canonical application types and vocabulary. Future modules consume these definitions instead of duplicating strings.
@@ -88,5 +105,6 @@ Evaluation is sequential and dependency-injected. A case failure is recorded and
 - `src/github/labels.ts` owns the canonical label allowlist, definitions, and pure proposal mapping.
 - The remaining `src/github/` modules own event parsing, the injected Octokit adapter, reconciliation, orchestration, operation reports, and summary rendering.
 - `src/evaluation/` owns dataset and fixture validation, fixture adaptation, sequential evaluation, pure metrics, and sanitized report rendering. Versioned content and annotation guidance live under `evals/`.
+- `web/` owns the optional Next.js presentation adapter, public response contract, synthetic preview experience, guarded local route, responsive UI, and read-only evaluation summary.
 
 GitHub API calls must not enter the Jev adapter, policy must remain independent of presentation code, and untrusted issue text must be bounded before it is sent to an inference provider.
