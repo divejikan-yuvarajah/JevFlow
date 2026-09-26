@@ -14,7 +14,8 @@ describe('bootstrap CLI', () => {
     expect(output).toContain('Confidence policy and local label proposals');
     expect(output).toContain('GitHub automation: ready');
     expect(output).toContain('Offline synthetic evaluation harness: ready');
-    expect(output).toContain('Task 06 — web playground');
+    expect(output).toContain('Web playground: ready');
+    expect(output).toContain('Task 07 — documentation');
     expect(output).not.toMatch(
       /classified|label applied|API request completed/i,
     );

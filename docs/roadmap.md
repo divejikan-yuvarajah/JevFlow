@@ -38,7 +38,7 @@ Codex assists with development only. Jev remains the application's inference pro
 | Task 03 — Confidence Policy, Labels & CLI             | Confidence thresholds, decision modes, escalation, label mapping, local CLI, fail-safe behavior                                 | `feat/confidence-policy`  | Complete    |
 | Task 04 — GitHub Integration & Automation             | Event parsing, GitHub API, labels, automation, Actions workflow, summaries, test-repository deployment template                 | `feat/github-automation`  | Complete    |
 | Task 05 — Testing, Evaluation & Benchmarking          | Evaluation data, fixtures, accuracy, latency, confidence, automation coverage, review escalation metrics                        | `test/evaluation-suite`   | Complete    |
-| Task 06 — Web Playground & Decision Dashboard         | Optional Next.js UI, issue input, server-side Jev path, decision and confidence/policy views, responsive layout                 | `feat/demo-dashboard`     | Not Started |
+| Task 06 — Web Playground & Decision Dashboard         | Optional Next.js UI, issue input, server-side Jev path, decision and confidence/policy views, responsive layout                 | `feat/demo-dashboard`     | Complete    |
 | Task 07 — Documentation, Final QA & Release           | README, architecture docs, screenshots, demos, release checklist, security review, release and demo preparation                 | `docs/release`            | Not Started |
 
 ## Current status
@@ -49,10 +49,10 @@ Codex assists with development only. Jev remains the application's inference pro
 - Task 03: Complete
 - Task 04: Complete (offline implementation and validation; live deployment not run)
 - Task 05: Complete (offline synthetic evaluation; live Jev benchmark not run)
-- Task 06: Not Started
+- Task 06: Complete (offline playground and guarded local live path; no live request run)
 - Task 07: Not Started
 
-The foundation, Jev triage engine, confidence policy, label proposal mapper, local CLI, guarded GitHub automation, and 30-case evaluation harness have been implemented and verified offline. The evaluation reports clearly identify authored fixtures and do not claim live Jev performance. The main workflow and separately configurable target-repository template are present. Live Jev inference, live benchmarking, workflow deployment, and GitHub issue mutation were not run.
+The foundation, Jev triage engine, confidence policy, label proposal mapper, local CLI, guarded GitHub automation, 30-case evaluation harness, and responsive local dashboard have been implemented and verified offline. The dashboard provides three explicit synthetic previews, a local-development-only Jev route, and a read-only view of valid Task 05 reports. Evaluation and preview data clearly identify authored fixtures and do not claim live Jev performance. Live Jev inference, live benchmarking, workflow deployment, and GitHub issue mutation were not run.
 
 ## Repository separation
 
