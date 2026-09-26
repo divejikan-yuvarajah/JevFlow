@@ -20,6 +20,7 @@ Common commands:
 - `npm run build` compiles `src/` into `dist/`.
 - `npm start` runs the compiled bootstrap.
 - `npm run check` runs formatting, type checking, linting, tests, and build in sequence.
+- `npm run triage -- --help` shows the local file-driven CLI without requiring credentials.
 - `npm run smoke:jev` makes one explicit live Jev request and is excluded from normal checks.
 
 Tests use injected provider fixtures shaped like the installed SDK contract. They require no network access or credentials.
@@ -37,6 +38,19 @@ npm run smoke:jev
 ```
 
 It uses a harmless invented issue. Never paste an API key into source code, documentation, terminal history, or chat. A missing key produces a sanitized nonzero failure.
+
+## Local issue triage
+
+Use the synthetic example or another JSON object matching `IssueInput`:
+
+```powershell
+npm run triage -- --file examples/sample-issue.json
+npm run triage -- --file examples/sample-issue.json --json
+```
+
+The CLI rejects unknown flags, missing or malformed files, files larger than 64 KiB, invalid issue input, invalid thresholds, and analyzer failures with a nonzero exit code. It never prints the issue body or credentials. Human output distinguishes selected probability, reported choice confidence, and binary P(YES); JSON output emits one machine-readable document.
+
+File-based analysis is an explicit live Jev operation and may consume paid capacity. It makes no GitHub API call and only proposes allowlisted labels locally. Use injected analyzers in tests; `npm test`, `npm run check`, `npm run dev`, `npm start`, and CLI help remain offline.
 
 ## Git workflow
 

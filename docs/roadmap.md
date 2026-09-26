@@ -35,7 +35,7 @@ Codex assists with development only. Jev remains the application's inference pro
 | Setup Phase                                           | VS Code + Codex workflow, repository instructions, prompts, roadmap, Git conventions, workspace verification                    | `main`                    | Complete    |
 | Task 01 — Project Foundation & Configuration          | Node.js 20+, TypeScript ESM, npm, environment configuration, domain types, quality tooling, tests, CI, bootstrap CLI, base docs | `feat/project-foundation` | Complete    |
 | Task 02 — Jev Integration & Intelligent Triage Engine | Jev SDK, issue state, typed questions, analysis, validation, normalized output, optional smoke test                             | `feat/jev-engine`         | Complete    |
-| Task 03 — Confidence Policy, Labels & CLI             | Confidence thresholds, decision modes, escalation, label mapping, local CLI, fail-safe behavior                                 | `feat/confidence-policy`  | Not Started |
+| Task 03 — Confidence Policy, Labels & CLI             | Confidence thresholds, decision modes, escalation, label mapping, local CLI, fail-safe behavior                                 | `feat/confidence-policy`  | Complete    |
 | Task 04 — GitHub Integration & Automation             | Event parsing, GitHub API, labels, automation, Actions workflow, summaries, test-repository deployment template                 | `feat/github-automation`  | Not Started |
 | Task 05 — Testing, Evaluation & Benchmarking          | Evaluation data, fixtures, accuracy, latency, confidence, automation coverage, review escalation metrics                        | `test/evaluation-suite`   | Not Started |
 | Task 06 — Web Playground & Decision Dashboard         | Optional Next.js UI, issue input, server-side Jev path, decision and confidence/policy views, responsive layout                 | `feat/demo-dashboard`     | Not Started |
@@ -46,13 +46,13 @@ Codex assists with development only. Jev remains the application's inference pro
 - Setup Phase: Complete
 - Task 01: Complete
 - Task 02: Complete
-- Task 03: Not Started
+- Task 03: Complete
 - Task 04: Not Started
 - Task 05: Not Started
 - Task 06: Not Started
 - Task 07: Not Started
 
-The project foundation and Jev triage engine have been implemented and verified offline. The optional live Jev smoke test has not been run, and confidence policy or GitHub automation has not started.
+The foundation, Jev triage engine, confidence policy, label proposal mapper, and local CLI have been implemented and verified offline. Live Jev CLI analysis was not run, and GitHub automation has not started.
 
 ## Repository separation
 

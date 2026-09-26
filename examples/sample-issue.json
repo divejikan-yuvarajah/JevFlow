@@ -1,0 +1,6 @@
+{
+  "title": "Login endpoint returns 500 after refresh token expiry",
+  "body": "After a token expires, the backend responds with HTTP 500 instead of asking the user to sign in again.",
+  "issueNumber": 42,
+  "repository": "example/jevflow-demo"
+}

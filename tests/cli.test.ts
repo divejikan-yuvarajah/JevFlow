@@ -11,7 +11,8 @@ describe('bootstrap CLI', () => {
     expect(output).toContain('JevFlow — foundation ready');
     expect(output).toContain('no Jev/GitHub requests');
     expect(output).toContain('Jev integration: available through analyzeIssue');
-    expect(output).toContain('Task 03 — confidence policy');
+    expect(output).toContain('Confidence policy and local label proposals');
+    expect(output).toContain('Task 04 — GitHub integration');
     expect(output).not.toMatch(
       /classified|label applied|API request completed/i,
     );
