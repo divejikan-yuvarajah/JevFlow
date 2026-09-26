@@ -1,3 +1,4 @@
+import Image from 'next/image';
 import Link from 'next/link';
 import type { LiveDemoAvailability } from '@/lib/demo-guards';
 
@@ -10,15 +11,16 @@ export function AppHeader({ availability }: AppHeaderProps) {
     <header className="site-header">
       <div className="header-inner">
         <Link className="brand" href="/" aria-label="JevFlow playground">
-          <span className="brand-mark" aria-hidden="true">
-            <svg viewBox="0 0 32 32" role="img">
-              <path d="M7 7.5h18v8.25c0 6.1-3.72 9.6-9 10.75-5.28-1.15-9-4.65-9-10.75V7.5Z" />
-              <path d="m11 16 3.1 3.1L21.5 12" />
-            </svg>
-          </span>
-          <span>
-            <strong>JevFlow</strong>
-            <small>Confidence-Aware GitHub Issue Triage</small>
+          <span className="brand-logo" aria-hidden="true">
+            <Image
+              className="brand-logo-image"
+              src="/jevflow-logo.png"
+              alt=""
+              width={1448}
+              height={1086}
+              sizes="(max-width: 440px) 132px, 176px"
+              preload
+            />
           </span>
         </Link>
         <nav aria-label="Primary navigation">
