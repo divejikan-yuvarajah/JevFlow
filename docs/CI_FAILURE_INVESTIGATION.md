@@ -9,7 +9,7 @@
 | Repair branch      | `fix/ci-workflows`                                         |
 | Base commit        | `1b98fa81ab3232ad1c9c49060aae89536f7d9cd1` (`origin/main`) |
 | GitHub runner      | Ubuntu 24.04, Node.js 20.20.2, npm 10.8.2                  |
-| Local reproduction | Windows, Node.js 24.10.0, npm 10.8.2 invoked explicitly    |
+| Local reproduction | Windows, portable Node.js 20.20.2 and npm 10.8.2           |
 
 OpenAI Codex performed this investigation as the development assistant. TypeSafe AI Jev remains JevFlow's inference provider. No live Jev request or GitHub issue mutation occurred.
 
@@ -62,26 +62,26 @@ The resulting lockfile adds the missing `@emnapi` records, bundled WASM metadata
 
 ## Local verification
 
-| Command                              | Result                                                                                  |
-| ------------------------------------ | --------------------------------------------------------------------------------------- |
-| npm 10.8.2 root `npm ci`             | **PASS** — 164 packages installed, 0 vulnerabilities reported                           |
-| npm 10.8.2 web `npm ci` after repair | **PASS** — 475 packages installed, 0 vulnerabilities reported                           |
-| `npm run format:check`               | **PASS**                                                                                |
-| `npm run typecheck`                  | **PASS**                                                                                |
-| `npm run lint`                       | **PASS**                                                                                |
-| `npm test`                           | **PASS** — 25 files, 222 tests                                                          |
-| `npm run build`                      | **PASS**                                                                                |
-| `npm run check`                      | **PASS** — repeated all root checks                                                     |
-| `npm --prefix web run format:check`  | **PASS**                                                                                |
-| `npm --prefix web run typecheck`     | **PASS**                                                                                |
-| `npm --prefix web run lint`          | **PASS**                                                                                |
-| `npm --prefix web test`              | **PASS** — 14 files, 81 tests                                                           |
-| `npm --prefix web run build`         | **PASS** — Next.js production build, including `/repositories` and its three API routes |
-| `npm --prefix web run check`         | **PASS** — repeated all web checks                                                      |
-| `npm run eval -- --mode fixture`     | **PASS** — 30/30 synthetic fixture cases; not Jev performance                           |
-| `npm run triage -- --help`           | **PASS** — help only; no inference                                                      |
+| Command                                             | Result                                                                                  |
+| --------------------------------------------------- | --------------------------------------------------------------------------------------- |
+| Node 20.20.2 / npm 10.8.2 root `npm ci`             | **PASS** — 164 packages installed, 0 vulnerabilities reported                           |
+| Node 20.20.2 / npm 10.8.2 web `npm ci` after repair | **PASS** — 475 packages installed, 0 vulnerabilities reported                           |
+| `npm run format:check`                              | **PASS**                                                                                |
+| `npm run typecheck`                                 | **PASS**                                                                                |
+| `npm run lint`                                      | **PASS**                                                                                |
+| `npm test`                                          | **PASS** — 25 files, 222 tests                                                          |
+| `npm run build`                                     | **PASS**                                                                                |
+| `npm run check`                                     | **PASS** — repeated all root checks                                                     |
+| `npm --prefix web run format:check`                 | **PASS**                                                                                |
+| `npm --prefix web run typecheck`                    | **PASS**                                                                                |
+| `npm --prefix web run lint`                         | **PASS**                                                                                |
+| `npm --prefix web test`                             | **PASS** — 14 files, 81 tests                                                           |
+| `npm --prefix web run build`                        | **PASS** — Next.js production build, including `/repositories` and its three API routes |
+| `npm --prefix web run check`                        | **PASS** — repeated all web checks                                                      |
+| `npm run eval -- --mode fixture`                    | **PASS** — 30/30 synthetic fixture cases; not Jev performance                           |
+| `npm run triage -- --help`                          | **PASS** — help only; no inference                                                      |
 
-The first sandboxed fixture command stopped inside `tsx` because the restricted Windows environment returned `uv_os_get_passwd ... ENOMEM` before application startup. Repeating the same offline command outside that restriction passed 30/30 cases. This was a local sandbox limitation and required no source change.
+The exact aggregate root and web checks also passed with portable Node 20.20.2 and npm 10.8.2, matching the hosted runner. Restricted Windows attempts stopped before application startup when Node could not inspect an ancestor directory or resolve user information. Repeating the same offline commands outside that restriction passed. These were local sandbox limitations and required no source change.
 
 ## Remote verification status
 
