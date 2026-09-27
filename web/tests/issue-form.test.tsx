@@ -137,8 +137,10 @@ describe('issue form', () => {
 
     render(<IssueForm availability={disabled} />);
 
-    expect(await screen.findByLabelText('Issue title')).toHaveValue(
-      'Imported public issue',
+    await waitFor(() =>
+      expect(screen.getByLabelText('Issue title')).toHaveValue(
+        'Imported public issue',
+      ),
     );
     expect(screen.getByLabelText('Description')).toHaveValue(
       'Issue context from GitHub.',
