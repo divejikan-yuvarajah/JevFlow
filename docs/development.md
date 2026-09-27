@@ -79,6 +79,18 @@ npm run eval -- --mode fixture --format json --output evals/results/dashboard-ev
 
 Generated reports remain ignored. Fixture metrics describe harness behavior and must not be presented as live Jev performance.
 
+### Public repository browser
+
+The `/repositories` page works without provider credentials. Enter a public GitHub URL supplied for the test or use `owner/repo`. The web server performs unauthenticated, read-only GitHub requests; expect public API rate limits. Linked identifiers live only in browser local storage, and selected issue text uses a one-time session handoff to the playground.
+
+Offline tests inject the GitHub reader or mock `fetch`; they do not contact GitHub. Run the repository-specific tests with:
+
+```powershell
+npm --prefix web exec vitest run tests/repository-parser.test.ts tests/public-github-client.test.ts tests/repository-handlers.test.ts tests/linked-repositories.test.ts tests/connected-repositories.test.tsx
+```
+
+Publishing or configuring `jevflow-test-repo` remains a manual, separately authorized task. Follow [Connected Repositories](connected-repositories.md) for the read-only flow and [deployment](deployment.md) for the independent Actions installation.
+
 ## Environment and secrets
 
 Copy `.env.example` to `.env` only when local overrides are useful. Never commit `.env`, API keys, GitHub tokens, or other credentials. The bootstrap and offline checks work without credentials and log no secret values. Thresholds must be finite numbers in the inclusive range 0 through 1, and the review threshold cannot exceed the automatic threshold.
@@ -140,6 +152,7 @@ See [the Codex workflow](codex-workflow.md) for the repository's phase execution
 - **Web imports under `dist/` are missing:** run `npm run build` at the root. Every web check also runs this through `prepare:core`.
 - **The evaluation page has no report:** generate an ignored JSON artifact under `evals/results/` with the fixture command above, then reload the page.
 - **Live dashboard mode stays disabled:** it works only under `next dev`, requires both values in `web/.env.local`, and needs a server restart. It is intentionally disabled in production builds.
+- **Public repository loading is rate limited:** wait for the reported interval and retry. The dashboard intentionally does not add a token or authenticated fallback.
 - **A live CLI reports a missing key:** confirm `TYPESAFE_API_KEY` is present in the intended process environment or ignored `.env`. Do not print the value while diagnosing it.
 - **GitHub manual dispatch fails validation:** enter an existing positive integer issue number. The application rejects pull requests and repository identity mismatches.
 - **Node type or build errors appear only in one package:** verify both `npm ci` commands completed and run root checks before the independent web checks.

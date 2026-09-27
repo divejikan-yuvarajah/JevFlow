@@ -1,6 +1,6 @@
 'use client';
 
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import {
   MAX_BODY_CODE_POINTS,
   MAX_TITLE_CODE_POINTS,
@@ -11,6 +11,10 @@ import {
   type PublicTriageView,
 } from '@/lib/contracts';
 import type { LiveDemoAvailability } from '@/lib/demo-guards';
+import {
+  consumeIssueHandoff,
+  type ImportedIssueHandoff,
+} from '@/lib/repositories/issue-handoff';
 import {
   findMatchingPreview,
   PREVIEW_SCENARIOS,
@@ -38,7 +42,30 @@ export function IssueForm({ availability }: IssueFormProps) {
   const [feedback, setFeedback] = useState(
     'Select a synthetic example to begin an offline preview.',
   );
+  const [importedIssue, setImportedIssue] =
+    useState<ImportedIssueHandoff | null>(null);
   const inFlight = useRef(false);
+
+  useEffect(() => {
+    const imported = consumeIssueHandoff(window.sessionStorage);
+    if (imported === null) return;
+    let cancelled = false;
+    queueMicrotask(() => {
+      if (cancelled) return;
+      setImportedIssue(imported);
+      setTitle(imported.title);
+      setBody(imported.body);
+      setMode(availability.liveEnabled ? 'live' : 'preview');
+      setFeedback(
+        availability.liveEnabled
+          ? 'Public GitHub issue imported. Review the text, then choose whether to make one live Jev request.'
+          : 'Public GitHub issue imported. Live Jev remains disabled until server access is explicitly configured.',
+      );
+    });
+    return () => {
+      cancelled = true;
+    };
+  }, [availability.liveEnabled]);
 
   const titleLength = codePointLength(title);
   const bodyLength = codePointLength(body);
@@ -49,6 +76,7 @@ export function IssueForm({ availability }: IssueFormProps) {
   const selectedScenario = findMatchingPreview(title, body);
 
   function selectScenario(scenario: PreviewScenario): void {
+    setImportedIssue(null);
     setTitle(scenario.title);
     setBody(scenario.body);
     setResult(null);
@@ -57,6 +85,7 @@ export function IssueForm({ availability }: IssueFormProps) {
   }
 
   function reset(): void {
+    setImportedIssue(null);
     setTitle('');
     setBody('');
     setResult(null);
@@ -203,6 +232,20 @@ export function IssueForm({ availability }: IssueFormProps) {
           {availability.message}
         </p>
 
+        {importedIssue ? (
+          <div className="imported-issue-banner" role="status">
+            <div>
+              <strong>Imported from a public GitHub issue</strong>
+              <span>
+                {importedIssue.repository}#{importedIssue.number}
+              </span>
+            </div>
+            <a href={importedIssue.htmlUrl} target="_blank" rel="noreferrer">
+              View source
+            </a>
+          </div>
+        ) : null}
+
         <div className="sample-section">
           <div className="sample-heading">
             <span>Synthetic examples</span>
@@ -286,7 +329,14 @@ export function IssueForm({ availability }: IssueFormProps) {
           <button
             className="analyze-button"
             type="submit"
-            disabled={loading || !validTitle || !validBody}
+            disabled={
+              loading ||
+              !validTitle ||
+              !validBody ||
+              (importedIssue !== null &&
+                !availability.liveEnabled &&
+                mode === 'preview')
+            }
           >
             <span
               className={loading ? 'button-spinner' : 'button-spark'}
@@ -294,11 +344,15 @@ export function IssueForm({ availability }: IssueFormProps) {
             >
               {loading ? '' : '✦'}
             </span>
-            {loading
-              ? 'Analyzing once…'
-              : mode === 'preview'
-                ? 'Run synthetic preview'
-                : 'Analyze once with Jev'}
+            {importedIssue !== null &&
+            !availability.liveEnabled &&
+            mode === 'preview'
+              ? 'Live Jev unavailable for imported issue'
+              : loading
+                ? 'Analyzing once…'
+                : mode === 'preview'
+                  ? 'Run synthetic preview'
+                  : 'Analyze once with Jev'}
           </button>
         </form>
 

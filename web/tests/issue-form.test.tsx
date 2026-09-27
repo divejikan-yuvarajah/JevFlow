@@ -3,6 +3,7 @@ import userEvent from '@testing-library/user-event';
 import { afterEach, describe, expect, it, vi } from 'vitest';
 import { IssueForm } from '@/components/issue-form';
 import { PREVIEW_SCENARIOS } from '@/lib/preview-fixtures';
+import { saveIssueHandoff } from '@/lib/repositories/issue-handoff';
 import { makeLiveView } from './fixtures';
 
 const disabled = {
@@ -19,6 +20,7 @@ const enabled = {
 
 afterEach(() => {
   vi.unstubAllGlobals();
+  sessionStorage.clear();
 });
 
 describe('issue form', () => {
@@ -115,6 +117,45 @@ describe('issue form', () => {
       screen.getByRole('button', { name: /Analyze with Jev/u }),
     ).toBeDisabled();
     expect(screen.getByText(missingKey.message)).toBeInTheDocument();
+  });
+
+  it('prefills an imported public issue without starting inference', async () => {
+    const fetchMock = vi.fn();
+    vi.stubGlobal('fetch', fetchMock);
+    saveIssueHandoff(sessionStorage, 'Example/Project', {
+      number: 42,
+      title: 'Imported public issue',
+      body: 'Issue context from GitHub.',
+      htmlUrl: 'https://github.com/Example/Project/issues/42',
+      state: 'open',
+      createdAt: '2026-09-20T10:00:00.000Z',
+      updatedAt: '2026-09-21T10:00:00.000Z',
+      labels: [{ name: 'bug', color: 'aabbcc' }],
+      authorLogin: 'fixture-author',
+      bodyPreview: 'Issue context from GitHub.',
+    });
+
+    render(<IssueForm availability={disabled} />);
+
+    expect(await screen.findByLabelText('Issue title')).toHaveValue(
+      'Imported public issue',
+    );
+    expect(screen.getByLabelText('Description')).toHaveValue(
+      'Issue context from GitHub.',
+    );
+    expect(
+      screen.getByText('Imported from a public GitHub issue'),
+    ).toBeInTheDocument();
+    expect(screen.getByRole('link', { name: 'View source' })).toHaveAttribute(
+      'href',
+      'https://github.com/Example/Project/issues/42',
+    );
+    expect(
+      screen.getByRole('button', {
+        name: 'Live Jev unavailable for imported issue',
+      }),
+    ).toBeDisabled();
+    expect(fetchMock).not.toHaveBeenCalled();
   });
 
   it('keeps Enter as a newline in the description', async () => {

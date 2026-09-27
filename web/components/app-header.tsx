@@ -1,6 +1,7 @@
 import Image from 'next/image';
-import Link from 'next/link';
 import type { LiveDemoAvailability } from '@/lib/demo-guards';
+import { AppNav } from '@/components/app-nav';
+import Link from 'next/link';
 
 interface AppHeaderProps {
   readonly availability: LiveDemoAvailability;
@@ -23,10 +24,7 @@ export function AppHeader({ availability }: AppHeaderProps) {
             />
           </span>
         </Link>
-        <nav aria-label="Primary navigation">
-          <Link href="/">Playground</Link>
-          <Link href="/evaluation">Evaluation</Link>
-        </nav>
+        <AppNav />
         <div className={`live-status status-${availability.status}`}>
           <span aria-hidden="true" />
           {availability.liveEnabled
