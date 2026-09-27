@@ -1,6 +1,6 @@
 # JevFlow Web Playground
 
-This package contains the Task 06 Next.js App Router dashboard. It presents the existing JevFlow analyzer, deterministic confidence policy, and allowlisted proposed labels through a small public response contract. It does not implement a second classifier and never writes to GitHub.
+This package contains the Next.js App Router dashboard. It presents the existing JevFlow analyzer, deterministic confidence policy, and allowlisted proposed labels through a small public response contract. It also provides read-only public GitHub repository and issue browsing. It does not implement a second classifier and never writes to GitHub.
 
 ## Install and run
 
@@ -43,7 +43,7 @@ Production live requests are rejected. This local guard is not a production auth
 - `/api/analyze` accepts only bounded JSON with `title` and `body`, disables caching, and returns sanitized errors.
 - The public result excludes issue text, credentials, raw SDK data, raw provider errors, auth headers, and filesystem paths.
 - Preview failure never falls back from a live request or disguises a provider failure as synthetic output.
-- The dashboard contains no Octokit adapter and cannot label, comment on, or otherwise modify GitHub issues.
+- The dashboard contains no GitHub mutation adapter and cannot label, comment on, or otherwise modify GitHub issues. Public repository reads use native server-side `fetch` without authorization.
 - Proposed labels are exact values from the root allowlist and are visibly marked as local proposals.
 
 ## Evaluation view
@@ -51,6 +51,12 @@ Production live requests are rejected. This local guard is not a production auth
 The evaluation page reads only valid JSON from the fixed root `evals/results/` directory. It projects aggregate Task 05 fields and does not expose issue cases or local paths. When no valid report is present it shows an honest empty state and generation command.
 
 Offline fixture metrics measure the deterministic evaluation harness and policy. They are not Jev accuracy, calibration, latency, cost, or production performance. Provider latency appears only for a valid live report that actually contains it.
+
+## Connected repositories
+
+Open `/repositories` and enter `owner/repo` or an HTTPS `github.com/owner/repo` URL. Same-origin server routes verify public metadata and read bounded issue data from GitHub's fixed public API origin. Pull requests are excluded from issue results. Up to five canonical repository identifiers are stored in local browser storage; disconnecting removes only that local link.
+
+Selecting an issue and opening it in the playground uses a one-time session handoff. It prefills the existing form, identifies the source, and never submits automatically. This flow needs neither `TYPESAFE_API_KEY` nor `GITHUB_TOKEN`. GitHub public API rate limits still apply. See [the complete guide](../docs/connected-repositories.md).
 
 ## Commands
 
@@ -64,11 +70,12 @@ npm --prefix web run test
 npm --prefix web run check
 ```
 
-All tests use fixtures or injected analyzers. Build, test, checks, page load, offline preview, and report display do not call Jev or GitHub.
+All tests use fixtures, injected analyzers, or mocked GitHub responses. Build, test, checks, page load, offline preview, and report display do not call Jev or GitHub.
 
 ## Current limitations
 
 - Live mode is intentionally local-development-only.
 - There is no authentication, database, multi-user state, or browser GitHub mutation.
+- Public repository reads are unauthenticated and subject to GitHub rate limits; private repositories are unsupported.
 - Evaluation reports are local generated artifacts and remain Git-ignored.
 - Public deployment and release media belong to Task 07.

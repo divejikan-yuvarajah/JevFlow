@@ -1,0 +1,9 @@
+import { createPublicGitHubReader } from '@/lib/github/public-github-client';
+import { handleGetIssue } from '@/lib/github/repository-handlers';
+
+export const runtime = 'nodejs';
+export const dynamic = 'force-dynamic';
+
+export function GET(request: Request): Promise<Response> {
+  return handleGetIssue(request, createPublicGitHubReader());
+}

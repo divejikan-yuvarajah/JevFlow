@@ -13,6 +13,7 @@ JevFlow is a local, offline-verified v0.1.0 MVP candidate. Live Jev inference, G
 | Strict TypeScript core, confidence policy, CLI, tests | Implemented and verified offline                      | None                                            |
 | 30-case synthetic fixture evaluation                  | Implemented; measures harness and policy behavior     | None                                            |
 | Responsive Next.js preview dashboard                  | Implemented; synthetic fixture mode works offline     | None                                            |
+| Read-only public repository browser                   | Implemented; public GitHub reads, no repository write | None                                            |
 | Local CLI analysis with Jev                           | Implemented; deliberate live command                  | `TYPESAFE_API_KEY`                              |
 | GitHub Actions issue labeling                         | Implemented and statically reviewed; live run pending | Repository secret plus automatic `GITHUB_TOKEN` |
 | Dashboard live analysis                               | Development-only, disabled by default                 | Server-side `TYPESAFE_API_KEY`                  |
@@ -112,9 +113,9 @@ npm --prefix web run dev
 npm --prefix web run check
 ```
 
-Open `http://localhost:3000`. The default Preview Fixture mode uses three clearly labeled synthetic examples and makes no provider request. The `/evaluation` page reads a valid local report when one exists and otherwise shows an honest empty state.
+Open `http://localhost:3000`. The default Preview Fixture mode uses three clearly labeled synthetic examples and makes no provider request. The `/evaluation` page reads a valid local report when one exists and otherwise shows an honest empty state. The `/repositories` page validates and locally links public GitHub repositories, then reads actual public issues through server-only routes. Opening an issue in the playground prefills its text without starting inference or modifying GitHub.
 
-Live dashboard requests require an ignored `web/.env.local`, `JEVFLOW_LIVE_DEMO_ENABLED=true`, and a server-only `TYPESAFE_API_KEY`. The route is disabled in production and the dashboard never writes to GitHub. See [web/README.md](web/README.md).
+Live dashboard requests require an ignored `web/.env.local`, `JEVFLOW_LIVE_DEMO_ENABLED=true`, and a server-only `TYPESAFE_API_KEY`. The route is disabled in production and the dashboard never writes to GitHub. Public repository browsing requires no TypeSafe key or GitHub token and remains subject to GitHub's unauthenticated API limits. See [Connected Repositories](docs/connected-repositories.md) and [web/README.md](web/README.md).
 
 ## GitHub Actions installation
 
@@ -150,6 +151,7 @@ Screenshots are **pending capture**. No generated image is presented as a real p
 - [Evaluation](docs/evaluation.md)
 - [Security](docs/security.md)
 - [Deployment](docs/deployment.md)
+- [Connected repositories](docs/connected-repositories.md)
 - [Release readiness report](docs/release-report.md)
 - [Roadmap](docs/roadmap.md)
 

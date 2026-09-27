@@ -94,6 +94,21 @@ The `web/` package consumes the root package's compiled `dist/` contract through
 
 Live dashboard inference is disabled by default, restricted to local development, and requires both `JEVFLOW_LIVE_DEMO_ENABLED=true` and a server-side `TYPESAFE_API_KEY`. Preview submission never calls the route. The dashboard does not import Octokit, update issues, trigger workflows, or apply labels. Its evaluation page scans only the fixed local `evals/results/` directory, validates a narrow Task 05 summary, and never renders report cases or paths.
 
+## Connected repositories flow
+
+```text
+Browser repository input
+  → strict github.com URL / owner-repo parser
+  → same-origin GET route with bounded query parameters
+  → server-only unauthenticated reader at fixed api.github.com origin
+  → runtime-mapped public metadata / issue DTOs (pull requests removed)
+  → responsive read-only repository view
+  → one-time session issue handoff
+  → existing playground form (no automatic inference)
+```
+
+The browser persists at most five canonical repository identifiers in local storage; it does not persist issue bodies, credentials, or provider output. Server routes support only public reads and never accept a target URL directly. They use native fetch with a timeout, no authorization header, no cache, sanitized errors, and bounded pages. The selected issue is rendered as plain text and transferred through validated session storage. Task 04's Octokit mutation path remains isolated in the root package and is never imported by the dashboard.
+
 ## Module boundaries
 
 - `src/domain/` owns canonical application types and vocabulary. Future modules consume these definitions instead of duplicating strings.
@@ -106,6 +121,7 @@ Live dashboard inference is disabled by default, restricted to local development
 - The remaining `src/github/` modules own event parsing, the injected Octokit adapter, reconciliation, orchestration, operation reports, and summary rendering.
 - `src/evaluation/` owns dataset and fixture validation, fixture adaptation, sequential evaluation, pure metrics, and sanitized report rendering. Versioned content and annotation guidance live under `evals/`.
 - `web/` owns the optional Next.js presentation adapter, public response contract, synthetic preview experience, guarded local route, responsive UI, and read-only evaluation summary.
+- `web/lib/github/` owns strict public repository parsing, bounded GitHub response mapping, the server-only public reader, and injected route handlers. `web/lib/repositories/` owns browser-local identifiers and the one-time issue handoff.
 
 GitHub API calls must not enter the Jev adapter, policy must remain independent of presentation code, and untrusted issue text must be bounded before it is sent to an inference provider.
 
@@ -120,6 +136,7 @@ GitHub API calls must not enter the Jev adapter, policy must remain independent 
 | GitHub mutation      | Proposed labels and current labels           | Exact static allowlist; add desired labels before removing stale managed labels                |
 | Dashboard API        | Request headers and JSON body                | Development-only gate, 48 KiB body cap, strict fields, bounded issue input, sanitized response |
 | Evaluation page      | Local JSON report                            | Fixed directory, 2 MiB file cap, narrow schema; case text and paths are not rendered           |
+| Public repository UI | Repository URL and public GitHub responses   | Fixed GitHub origin, strict names, bounded DTOs/pages, PR exclusion; read-only display/handoff |
 
 Issue text reaches TypeSafe AI Jev only on an explicit live analyzer path. It is not written into shell commands, workflow action references, repository names, paths, Actions summaries, or dashboard API responses. The SDK adapter disables provider logging. The application has no database.
 
